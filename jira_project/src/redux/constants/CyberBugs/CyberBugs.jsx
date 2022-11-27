@@ -1,0 +1,4 @@
+export const USER_SIGNIN_SAGA = "USER_SIGNIN_SAGA";
+
+export const ADD_HISTORY = "ADD_HISTORY";
+export const LOGIN_ACTION = "LOGIN_ACTION";
