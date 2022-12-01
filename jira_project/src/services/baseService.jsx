@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DOMAIN, TOKEN } from "../utils/setting/config";
+import { ACCESS_TOKEN, DOMAIN, TOKEN } from "../utils/setting/config";
 
 export class baseService {
   put = (url, model) => {
@@ -9,7 +9,7 @@ export class baseService {
       data: model,
       headers: {
         TokenCyberSoft: TOKEN,
-        Authorization: "Bearer " + localStorage.getItem(TOKEN),
+        Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN),
       },
     });
   };
@@ -21,7 +21,7 @@ export class baseService {
       data: model,
       headers: {
         TokenCyberSoft: TOKEN,
-        Authorization: "Bearer " + localStorage.getItem(TOKEN),
+        Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN),
       },
     });
   };
@@ -32,7 +32,7 @@ export class baseService {
       method: "GET",
       headers: {
         TokenCyberSoft: TOKEN,
-        Authorization: "Bearer " + localStorage.getItem(TOKEN),
+        Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN),
       },
     });
   };
@@ -43,7 +43,7 @@ export class baseService {
       method: "DELETE",
       headers: {
         TokenCyberSoft: TOKEN,
-        Authorization: "Bearer " + localStorage.getItem(TOKEN),
+        Authorization: "Bearer " + localStorage.getItem(ACCESS_TOKEN),
       },
     });
   };

@@ -34,7 +34,7 @@ function* signinSaga(action) {
     });
 
     let history = yield select((state) => state.HistoryReducer.history);
-    history("/home");
+    history("/projectManagement");
 
     console.log("data", data);
   } catch (error) {
