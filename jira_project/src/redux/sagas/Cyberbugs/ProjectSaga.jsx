@@ -9,6 +9,7 @@ import {
   select,
 } from "redux-saga/effects";
 import { projectCyberBugsSevice } from "../../../services/ProjectCyberBugsService";
+import { notifiFuntion } from "../../../utils/Notification/Notification";
 
 // function* createProjectSaga(action) {
 //   try {
@@ -35,7 +36,9 @@ function* getListProjectSaga(action) {
     console.log("error", err);
   }
 }
+//
 
+// Update Project
 function* getUpdateProjectSaga(action) {
   try {
     // Gọi API lấy từ dữ liệu về
@@ -45,8 +48,34 @@ function* getUpdateProjectSaga(action) {
     if (status === 200) {
       console.log("data", data);
     }
+    yield put({
+      type: "GET_LIST_PROJECT_SAGA",
+    });
   } catch (err) {
     console.log("error", err);
+  }
+}
+
+// Delete Project
+
+function* getDeleteProjectSaga(action) {
+  try {
+    // Gọi API lấy từ dữ liệu về
+    const { data, status } = yield call(() =>
+      projectCyberBugsSevice.deleteProject(action.idProject)
+    );
+    if (status === 200) {
+      console.log("data", data);
+      notifiFuntion("success", "Delete project successfully !");
+    } else {
+      notifiFuntion("error", "Delete project fail !");
+    }
+    yield put({
+      type: "GET_LIST_PROJECT_SAGA",
+    });
+  } catch (err) {
+    console.log("error", err);
+    notifiFuntion("error", "Delete project fail !");
   }
 }
 
@@ -56,4 +85,8 @@ export function* theoDoiGetListProjectSaga() {
 
 export function* theoDoiGetProjectUpdateSaga() {
   yield takeLatest("GET_UPDATE_PROJECT_SAGA", getUpdateProjectSaga);
+}
+
+export function* theoDoiGetProjectDeleteSaga() {
+  yield takeLatest("GET_DELETE_PROJECT_SAGA", getDeleteProjectSaga);
 }
