@@ -5,12 +5,7 @@ const Home = () => {
   const userLogin = useSelector(
     (state) => state.UserCyberBugsReducer.UserLogin
   );
-  return (
-    <div>
-      {userLogin.name}
-      <img src={userLogin.avatar} alt="" />
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Home;
