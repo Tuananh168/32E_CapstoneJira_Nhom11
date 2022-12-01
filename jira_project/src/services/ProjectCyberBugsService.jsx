@@ -9,8 +9,12 @@ export class ProjectCyberBugsSevice extends baseService {
     return this.get(`/api/Project/getAllProject`);
   };
 
-  UpdateProject = (projectUpdateID) => {
-    return this.put(`/api/Project/updateProject=${projectUpdateID}`);
+  UpdateProject = (projectUpdateId) => {
+    return this.put(`/api/Project/updateProject=${projectUpdateId}`);
+  };
+
+  deleteProject = (id) => {
+    return this.delete(`/api/Project/deleteProject?projectId=${id}`);
   };
 }
 

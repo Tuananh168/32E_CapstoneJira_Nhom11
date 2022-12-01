@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Space, Table } from "antd";
+import { Button, Space, Table, message, Popconfirm } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Divider, Tag } from "antd";
@@ -8,6 +8,11 @@ import {
   OPEN_DRAWER_EDIT_FROM,
 } from "../../redux/constants/CyberBugs/DrawerCyberBugs";
 import FormEditProject from "../../components/CyberBugs/FormEditProject";
+
+const text = "Are you sure to delete this task?";
+const confirm = () => {
+  message.info("Clicked on Yes.");
+};
 
 const ProjectManagement = () => {
   const projectList = useSelector(
@@ -120,9 +125,22 @@ const ProjectManagement = () => {
             >
               <EditOutlined />
             </button>
-            <button>
-              <DeleteOutlined />
-            </button>
+            <Popconfirm
+              placement="topRight"
+              title={"Are you sure to delete this project?"}
+              onConfirm={() => {
+                dispatch({
+                  type: "GET_DELETE_PROJECT_SAGA",
+                  idProject: record.id,
+                });
+              }}
+              okText="Yes"
+              cancelText="No"
+            >
+              <button>
+                <DeleteOutlined />
+              </button>
+            </Popconfirm>
           </Space>
         );
       },

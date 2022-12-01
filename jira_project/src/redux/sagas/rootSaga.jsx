@@ -9,5 +9,6 @@ export function* rootSaga() {
     ProjectSaga.theoDoiGetListProjectSaga(),
     ProjectCategorySaga.theoDoiProjectCategory(),
     ProjectSaga.theoDoiGetProjectUpdateSaga(),
+    ProjectSaga.theoDoiGetProjectDeleteSaga(),
   ]);
 }
