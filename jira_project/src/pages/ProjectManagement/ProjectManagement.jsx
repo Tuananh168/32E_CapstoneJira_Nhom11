@@ -1,5 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Button, Space, Table, message, Popconfirm } from "antd";
+import React, { useState, useEffect, Fragment } from "react";
+import {
+  Button,
+  Space,
+  Table,
+  message,
+  Popconfirm,
+  Avatar,
+  Popover,
+  AutoComplete,
+  Input,
+} from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Divider, Tag } from "antd";
@@ -8,16 +18,26 @@ import {
   OPEN_DRAWER_EDIT_FROM,
 } from "../../redux/constants/CyberBugs/DrawerCyberBugs";
 import FormEditProject from "../../components/CyberBugs/FormEditProject";
-
-const text = "Are you sure to delete this task?";
-const confirm = () => {
-  message.info("Clicked on Yes.");
-};
+import {
+  ADD_USER_PROJECT_SAGA,
+  GET_ADD_USER_SAGA,
+} from "../../redux/constants/CyberBugs/CyberBugs";
 
 const ProjectManagement = () => {
+  const handleSearch = (value) => {
+    dispatch({
+      type: GET_ADD_USER_SAGA,
+      keyword: value,
+    });
+  };
+
   const projectList = useSelector(
     (state) => state.ProjectCyberBugsReducer.projectList
   );
+
+  const { UserSearch } = useSelector((state) => state.UserCyberBugsReducer);
+
+  const [value, setValue] = useState("");
 
   // Sử dụng useDispatch để gọi action
   const dispatch = useDispatch();
@@ -101,18 +121,88 @@ const ProjectManagement = () => {
       title: "Member",
       dataIndex: "member",
       key: "member",
+      render: (text, record, index) => {
+        return (
+          <div>
+            {record.members?.slice(0, 2).map((member, index) => {
+              return (
+                <Fragment key={index}>
+                  <Avatar src={member.avatar} />
+                </Fragment>
+              );
+            })}
+            {record.members?.length > 3 ? <Avatar>...</Avatar> : ""}
+            <Popover
+              placement="right"
+              title={"Add member"}
+              content={() => {
+                return (
+                  <AutoComplete
+                    style={{
+                      width: 200,
+                    }}
+                    onSearch={handleSearch}
+                    options={UserSearch?.map((user, index) => {
+                      return {
+                        label: user.name,
+                        value: user.userId.toString(),
+                      };
+                    })}
+                    value={value}
+                    onSelect={(value, option) => {
+                      // Set giá trị của hộp thoại
+                      setValue(option.label);
+                      // GỌi Api gửi về backend
+                      console.log("record", record.id);
+                      console.log("valueSelect", value);
+                      dispatch({
+                        type: ADD_USER_PROJECT_SAGA,
+                        userProject: {
+                          projectId: record.id,
+                          userId: value,
+                        },
+                      });
+                    }}
+                    onChange={(value) => {
+                      setValue(value);
+                    }}
+                  >
+                    <Input
+                      placeholder="input here"
+                      className="custom"
+                      style={{
+                        height: 30,
+                      }}
+                    />
+                  </AutoComplete>
+                );
+              }}
+              trigger="click"
+            >
+              <button
+                style={{
+                  borderRadius: "50%",
+                  border: "1px solid",
+                  width: "28px",
+                  height: "28px",
+                }}
+              >
+                +
+              </button>
+            </Popover>
+          </div>
+        );
+      },
     },
     {
       title: "Action",
       dataIndex: "",
       key: "x",
       render: (text, record, index) => {
-        console.log("record", record);
         return (
           <Space>
             <button
               onClick={() => {
-                console.log("record", record);
                 dispatch({
                   type: OPEN_DRAWER_EDIT_FORM,
                   component: <FormEditProject />,
