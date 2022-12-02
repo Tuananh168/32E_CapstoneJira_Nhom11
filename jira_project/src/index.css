@@ -481,3 +481,7 @@ code {
 .estimate-time {
   font-size: 14px;
 }
+
+:where(.css-dev-only-do-not-override-6foo54).ant-layout {
+  flex: none;
+}

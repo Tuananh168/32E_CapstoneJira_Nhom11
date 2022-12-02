@@ -15,6 +15,7 @@ export class baseService {
   };
 
   post = (url, model) => {
+    console.log(localStorage.getItem(ACCESS_TOKEN));
     return axios({
       url: `${DOMAIN}${url}`,
       method: "POST",

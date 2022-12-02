@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import {
   Button,
   Space,
@@ -27,10 +27,15 @@ import { render } from "react-dom";
 
 const ProjectManagement = () => {
   const handleSearch = (value) => {
-    dispatch({
-      type: GET_ADD_USER_SAGA,
-      keyword: value,
-    });
+    if (searchRef.current) {
+      clearTimeout(searchRef.current);
+    }
+    searchRef.current = setTimeout(() => {
+      dispatch({
+        type: GET_ADD_USER_SAGA,
+        keyword: value,
+      });
+    }, 300);
   };
 
   const projectList = useSelector(
@@ -40,6 +45,8 @@ const ProjectManagement = () => {
   const { UserSearch } = useSelector((state) => state.UserCyberBugsReducer);
 
   const [value, setValue] = useState("");
+
+  const searchRef = useRef(null);
 
   // Sử dụng useDispatch để gọi action
   const dispatch = useDispatch();

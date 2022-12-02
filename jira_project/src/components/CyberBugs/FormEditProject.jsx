@@ -32,18 +32,18 @@ const FormEditProject = () => {
     },
 
     onSubmit: (values, props) => {},
-    handleSubmit: (values) => {
-      dispatch({
-        type: SET_SUBMIT_EDIT_PROJECT,
-        submitFunction: handleSubmit,
-      });
-    },
+    handleSubmit: (values) => {},
   });
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent());
     }
+    console.log("123");
+    dispatch({
+      type: SET_SUBMIT_EDIT_PROJECT,
+      submitFunction: handleSubmit,
+    });
   };
   const { handleSubmit, handleChange, values, errors, initialValues } = formik;
 

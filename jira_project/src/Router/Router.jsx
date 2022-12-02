@@ -6,8 +6,9 @@ import Home from "../pages/home/Home";
 import Login from "../pages/login/Login";
 import MainLayout from "../pages/MainLayout";
 import ProjectManagement from "../pages/ProjectManagement/ProjectManagement";
-import ProjectSetting from "../pages/projectSetting/ProjectSetting";
+
 import ContentCyberBugs from "../layouts/ContentMain";
+import CreateProject from "../pages/Create Project/CreateProject";
 
 const Router = () => {
   const routing = useRoutes([
@@ -20,8 +21,8 @@ const Router = () => {
           element: <ContentCyberBugs />,
         },
         {
-          path: "/projectSetting",
-          element: <ProjectSetting />,
+          path: "/createproject",
+          element: <CreateProject />,
         },
         {
           path: "/projectManagement",
