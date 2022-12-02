@@ -6,6 +6,8 @@ import * as ProjectCategorySaga from "./Cyberbugs/ProjectCategorySaga";
 export function* rootSaga() {
   yield all([
     UserCyberbugSaga.theoDoiSignin(),
+    UserCyberbugSaga.theoDoiGetUser(),
+    UserCyberbugSaga.theoDoiAddUserProject(),
     ProjectSaga.theoDoiGetListProjectSaga(),
     ProjectCategorySaga.theoDoiProjectCategory(),
     ProjectSaga.theoDoiGetProjectUpdateSaga(),

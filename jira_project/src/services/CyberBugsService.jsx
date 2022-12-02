@@ -8,6 +8,14 @@ export class CyberBugsService extends baseService {
   UserCyberBugs = (userLogin) => {
     return this.post(`/api/Users/signin`, userLogin);
   };
+
+  GetUser = (keyword) => {
+    return this.get(`/api/Users/getUser?keyword=${keyword}`);
+  };
+
+  assignUserProject = (userProject) => {
+    return this.post(`/api/Project/assignUserProject`, userProject);
+  };
 }
 
 export const cyberBugsService = new CyberBugsService();
