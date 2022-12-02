@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import {
   Button,
   Space,
@@ -11,7 +11,7 @@ import {
   Input,
 } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, CloseOutlined } from "@ant-design/icons";
 import { Divider, Tag } from "antd";
 import {
   OPEN_DRAWER_EDIT_FORM,
@@ -21,14 +21,21 @@ import FormEditProject from "../../components/CyberBugs/FormEditProject";
 import {
   ADD_USER_PROJECT_SAGA,
   GET_ADD_USER_SAGA,
+  REMOVE_USER_PROJECT_SAGA,
 } from "../../redux/constants/CyberBugs/CyberBugs";
+import { render } from "react-dom";
 
 const ProjectManagement = () => {
   const handleSearch = (value) => {
-    dispatch({
-      type: GET_ADD_USER_SAGA,
-      keyword: value,
-    });
+    if (searchRef.current) {
+      clearTimeout(searchRef.current);
+    }
+    searchRef.current = setTimeout(() => {
+      dispatch({
+        type: GET_ADD_USER_SAGA,
+        keyword: value,
+      });
+    }, 300);
   };
 
   const projectList = useSelector(
@@ -38,6 +45,8 @@ const ProjectManagement = () => {
   const { UserSearch } = useSelector((state) => state.UserCyberBugsReducer);
 
   const [value, setValue] = useState("");
+
+  const searchRef = useRef(null);
 
   // Sử dụng useDispatch để gọi action
   const dispatch = useDispatch();
@@ -124,13 +133,66 @@ const ProjectManagement = () => {
       render: (text, record, index) => {
         return (
           <div>
-            {record.members?.slice(0, 2).map((member, index) => {
-              return (
-                <Fragment key={index}>
-                  <Avatar src={member.avatar} />
-                </Fragment>
-              );
-            })}
+            <Popover
+              placement="bottom"
+              title="members"
+              content={() => {
+                return (
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>avatar</th>
+                        <th>name</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {record.members?.map((item, index) => {
+                        return (
+                          <tr key={index}>
+                            <td>{item.userId}</td>
+                            <td>
+                              <Avatar src={item.avatar} />
+                            </td>
+                            <td>{item.name}</td>
+                            <td>
+                              <button
+                                className="bg-red-600"
+                                style={{
+                                  borderRadius: "50%",
+                                  width: "30px",
+                                  height: "30px",
+                                }}
+                                onClick={() => {
+                                  dispatch({
+                                    type: REMOVE_USER_PROJECT_SAGA,
+                                    userProject: {
+                                      projectId: record.id,
+                                      userId: item.userId,
+                                    },
+                                  });
+                                }}
+                              >
+                                <CloseOutlined />
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                );
+              }}
+            >
+              {record.members?.slice(0, 2).map((member, index) => {
+                return (
+                  <Fragment key={index}>
+                    <Avatar src={member.avatar} />
+                  </Fragment>
+                );
+              })}
+            </Popover>
             {record.members?.length > 3 ? <Avatar>...</Avatar> : ""}
             <Popover
               placement="right"

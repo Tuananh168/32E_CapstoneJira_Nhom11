@@ -79,6 +79,29 @@ function* getDeleteProjectSaga(action) {
   }
 }
 
+// Create Project
+
+function* getCreateProjectSaga(action) {
+  try {
+    // Gọi API lấy từ dữ liệu về
+    const { data, status } = yield call(() =>
+      projectCyberBugsSevice.createProjectAuthorize(action.newProject)
+    );
+    if (status === 200) {
+      console.log("data", data);
+      notifiFuntion("success", "Create project successfully !");
+    } else {
+      notifiFuntion("error", "Create project fail !");
+    }
+    yield put({
+      type: "GET_LIST_PROJECT_SAGA",
+    });
+  } catch (err) {
+    console.log("error", err);
+    notifiFuntion("error", "Create project fail !");
+  }
+}
+
 export function* theoDoiGetListProjectSaga() {
   yield takeLatest("GET_LIST_PROJECT_SAGA", getListProjectSaga);
 }
@@ -89,4 +112,8 @@ export function* theoDoiGetProjectUpdateSaga() {
 
 export function* theoDoiGetProjectDeleteSaga() {
   yield takeLatest("GET_DELETE_PROJECT_SAGA", getDeleteProjectSaga);
+}
+
+export function* theoDoiCreateProjectSaga() {
+  yield takeLatest("GET_CREATE_PROJECT_SAGA", getCreateProjectSaga);
 }

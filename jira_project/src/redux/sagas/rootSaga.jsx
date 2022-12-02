@@ -8,9 +8,11 @@ export function* rootSaga() {
     UserCyberbugSaga.theoDoiSignin(),
     UserCyberbugSaga.theoDoiGetUser(),
     UserCyberbugSaga.theoDoiAddUserProject(),
+    UserCyberbugSaga.theoDoiRemoveUserProject(),
     ProjectSaga.theoDoiGetListProjectSaga(),
     ProjectCategorySaga.theoDoiProjectCategory(),
     ProjectSaga.theoDoiGetProjectUpdateSaga(),
     ProjectSaga.theoDoiGetProjectDeleteSaga(),
+    ProjectSaga.theoDoiCreateProjectSaga(),
   ]);
 }

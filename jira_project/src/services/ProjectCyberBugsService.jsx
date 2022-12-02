@@ -5,6 +5,14 @@ export class ProjectCyberBugsSevice extends baseService {
     super();
   }
 
+  createProject = (newProject) => {
+    return this.post(`/api/Project/createProject`, newProject);
+  };
+
+  createProjectAuthorize = (newProject) => {
+    return this.post(`/api/Project/createProjectAuthorize`, newProject);
+  };
+
   ProjectCyberBugs = () => {
     return this.get(`/api/Project/getAllProject`);
   };
@@ -15,6 +23,10 @@ export class ProjectCyberBugsSevice extends baseService {
 
   deleteProject = (id) => {
     return this.delete(`/api/Project/deleteProject?projectId=${id}`);
+  };
+
+  deleteUserFromProject = (userProject) => {
+    return this.post(`/api/Project/removeUserFromProject`, userProject);
   };
 }
 

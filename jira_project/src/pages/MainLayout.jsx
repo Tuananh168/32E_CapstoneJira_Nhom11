@@ -1,11 +1,12 @@
 import React from "react";
 import HeaderMain from "../layouts/HeaderMain";
 import InfoMain from "../layouts/InfoMain";
-import { Link, Route, Routes } from "react-router-dom";
-import ProjectSetting from "./projectSetting/ProjectSetting";
+import { NavLink, Route, Routes } from "react-router-dom";
+
 import ProjectManagement from "./ProjectManagement/ProjectManagement";
 import SideBar from "../layouts/SideBar";
 import ContentCyberBugs from "../layouts/ContentMain";
+import CreateProject from "./Create Project/CreateProject";
 
 const MainLayout = () => {
   return (
@@ -25,22 +26,32 @@ const MainLayout = () => {
             </div>
           </div>
           <div className="control">
-            <Link to="/cyberBugs" style={{ display: "block" }} className="mb-3">
+            <NavLink
+              to="/cyberBugs"
+              style={{ display: "block" }}
+              className="mb-3"
+              activeClassName="active font-weight-bold"
+            >
               <i className="fa fa-credit-card mr-1" />
               <span>Cyber Board</span>
-            </Link>
-            <Link to="/projectManagement" className="mb-3">
-              <i className="fa fa-cog mr-1" />
-              <span>Project Management</span>
-            </Link>
-            <Link
-              to="/projectSetting"
-              className="my-3"
-              style={{ display: "block" }}
+            </NavLink>
+            <NavLink
+              to="/projectManagement"
+              className="mb-3"
+              activeStyle="active font-weight-bold"
             >
               <i className="fa fa-cog mr-1" />
-              <span>Project Settings</span>
-            </Link>
+              <span>Project Management</span>
+            </NavLink>
+            <NavLink
+              to="/createproject"
+              className="my-3"
+              style={{ display: "block" }}
+              activeStyle="active font-weight-bold"
+            >
+              <i className="fa fa-cog mr-1" />
+              <span>Create Project</span>
+            </NavLink>
           </div>
           <div className="feature">
             <div>
@@ -70,7 +81,7 @@ const MainLayout = () => {
           <InfoMain />
           <Routes>
             <Route path="/cyberBugs" element={<ContentCyberBugs />} />
-            <Route path="/projectSetting" element={<ProjectSetting />} />
+            <Route path="/createproject" element={<CreateProject />} />
             <Route path="/projectManagement" element={<ProjectManagement />} />
           </Routes>
         </div>
