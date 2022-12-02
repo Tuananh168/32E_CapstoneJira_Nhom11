@@ -10,11 +10,13 @@ import {
   select,
 } from "redux-saga/effects";
 import { cyberBugsService } from "../../../services/CyberBugsService";
+import { projectCyberBugsSevice } from "../../../services/ProjectCyberBugsService";
 import { ACCESS_TOKEN, USER_LOGIN } from "../../../utils/setting/config";
 import {
   ADD_USER_PROJECT_SAGA,
   GET_ADD_USER_SAGA,
   LOGIN_ACTION,
+  REMOVE_USER_PROJECT_SAGA,
   USER_SIGNIN_SAGA,
 } from "../../constants/CyberBugs/CyberBugs";
 
@@ -82,6 +84,23 @@ function* AddUserProjectSaga(action) {
   }
 }
 
+// delete User Project
+
+function* RemoveUserProjectSaga(action) {
+  try {
+    const { data, status } = yield call(() =>
+      projectCyberBugsSevice.deleteUserFromProject(action.userProject)
+    );
+
+    yield put({
+      type: "GET_LIST_PROJECT_SAGA",
+    });
+    console.log("data", data);
+  } catch (error) {
+    console.log("error", error);
+  }
+}
+
 export function* theoDoiSignin() {
   yield takeLatest(USER_SIGNIN_SAGA, signinSaga);
 }
@@ -92,4 +111,8 @@ export function* theoDoiGetUser() {
 
 export function* theoDoiAddUserProject() {
   yield takeLatest(ADD_USER_PROJECT_SAGA, AddUserProjectSaga);
+}
+
+export function* theoDoiRemoveUserProject() {
+  yield takeLatest(REMOVE_USER_PROJECT_SAGA, RemoveUserProjectSaga);
 }

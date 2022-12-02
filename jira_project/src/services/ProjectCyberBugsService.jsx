@@ -16,6 +16,10 @@ export class ProjectCyberBugsSevice extends baseService {
   deleteProject = (id) => {
     return this.delete(`/api/Project/deleteProject?projectId=${id}`);
   };
+
+  deleteUserFromProject = (userProject) => {
+    return this.post(`/api/Project/removeUserFromProject`, userProject);
+  };
 }
 
 export const projectCyberBugsSevice = new ProjectCyberBugsSevice();
