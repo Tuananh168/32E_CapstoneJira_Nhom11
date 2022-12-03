@@ -1,6 +1,16 @@
 import React from "react";
 
-const InfoMain = () => {
+const InfoMain = (props) => {
+  const renderAvatar = () => {
+    return props.members?.map((user, index) => {
+      return (
+        <div key={index} className="avatar">
+          <img src={user.avatar} alt={user.avatar} />
+        </div>
+      );
+    });
+  };
+
   return (
     <div>
       <div className="info" style={{ display: "flex" }}>
@@ -9,15 +19,7 @@ const InfoMain = () => {
           <i className="fa fa-search" />
         </div>
         <div className="avatar-group" style={{ display: "flex" }}>
-          <div className="avatar">
-            <img src={require("../assets/img/download (1).jfif")} alt="1" />
-          </div>
-          <div className="avatar">
-            <img src={require("../assets/img/download (2).jfif")} alt="2" />
-          </div>
-          <div className="avatar">
-            <img src={require("../assets/img/download (3).jfif")} alt="3" />
-          </div>
+          {renderAvatar()}
         </div>
         <div style={{ marginLeft: 20 }} className="text">
           Only My Issues

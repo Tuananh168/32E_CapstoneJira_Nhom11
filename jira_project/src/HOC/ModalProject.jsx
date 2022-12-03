@@ -9,10 +9,10 @@ import {
 
 const ModalProject = () => {
   const dispatch = useDispatch();
-  const { visible, componentContentDrawer, callBackSubmit } = useSelector(
-    (state) => state.DrawerReducer
-  );
-  console.log("callBackSubmit: ", callBackSubmit);
+  const { visible, componentContentDrawer, callBackSubmit, title } =
+    useSelector((state) => state.DrawerReducer);
+
+  console.log("componentContentDrawer", componentContentDrawer);
 
   const showDrawer = () => {
     dispatch({ type: OPEN_DRAWER });
@@ -23,7 +23,7 @@ const ModalProject = () => {
   return (
     <>
       <Drawer
-        title={componentContentDrawer}
+        title={title}
         width={720}
         onClose={onClose}
         visible={visible}
@@ -40,7 +40,9 @@ const ModalProject = () => {
             </Button>
           </Space>
         }
-      ></Drawer>
+      >
+        {componentContentDrawer}
+      </Drawer>
     </>
   );
 };

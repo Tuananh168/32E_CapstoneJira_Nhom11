@@ -4,12 +4,14 @@ import Router from "./Router/Router"
 import "./index.css"
 
 import ModalProject from "./HOC/ModalProject";
+import ModalTask from "./layouts/ModalTask";
 
 
 
 function App() {
   return (
     <div>
+      <ModalTask />
       <ModalProject />
       <Router />
     </div>
