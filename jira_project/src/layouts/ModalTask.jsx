@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactHtmlParser from "html-react-parser";
+import { Editor } from "@tinymce/tinymce-react";
 
 const ModalTask = () => {
   const dispatch = useDispatch();
@@ -17,18 +18,105 @@ const ModalTask = () => {
   }, []);
 
   const { taskDetailModal } = useSelector((state) => state.TaskDetailReducer);
-  console.log("taskDetailModal: ", taskDetailModal);
 
   const { arrPriority } = useSelector((state) => state.PriorityReducer);
 
   const { arrStatus } = useSelector((state) => state.StatusReducer);
-  console.log("arrStatus: ", arrStatus);
 
   const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
 
+  const [visibleEditor, setVisibleEditor] = useState(false);
+  const [historyContent, sethistoryContent] = useState(
+    taskDetailModal.description
+  );
+  const [content, setContent] = useState(taskDetailModal.description);
   const renderDescription = () => {
     const jsxDescription = ReactHtmlParser(taskDetailModal.description);
-    return jsxDescription;
+    return (
+      <div>
+        {visibleEditor ? (
+          <div>
+            <Editor
+              name="description"
+              initialValue={taskDetailModal.description}
+              onEditorChange={(content, editor) => {
+                setContent(content);
+              }}
+              init={{
+                height: 500,
+                menubar: false,
+                plugins: [
+                  "a11ychecker",
+                  "advlist",
+                  "advcode",
+                  "advtable",
+                  "autolink",
+                  "checklist",
+                  "export",
+                  "lists",
+                  "link",
+                  "image",
+                  "charmap",
+                  "preview",
+                  "anchor",
+                  "searchreplace",
+                  "visualblocks",
+                  "powerpaste",
+                  "fullscreen",
+                  "formatpainter",
+                  "insertdatetime",
+                  "media",
+                  "table",
+                  "help",
+                  "wordcount",
+                ],
+                toolbar:
+                  "undo redo | casechange blocks | bold italic backcolor | " +
+                  "alignleft aligncenter alignright alignjustify | " +
+                  "bullist numlist checklist outdent indent | removeformat | a11ycheck code table help",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
+            />
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                setVisibleEditor(false);
+                dispatch({
+                  type: "CHANGE_TASK_MODAL",
+                  name: "description",
+                  value: content,
+                });
+              }}
+            >
+              Save
+            </button>
+            <button
+              className="btn btn-light"
+              onClick={() => {
+                setVisibleEditor(false);
+                dispatch({
+                  type: "CHANGE_TASK_MODAL",
+                  name: "description",
+                  value: historyContent,
+                });
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <div
+            onClick={() => {
+              setVisibleEditor(!visibleEditor);
+              sethistoryContent(taskDetailModal.description);
+            }}
+          >
+            {jsxDescription}
+          </div>
+        )}
+      </div>
+    );
   };
 
   const handleChange = (e) => {
@@ -248,7 +336,10 @@ const ModalTask = () => {
                           style={{ display: "flex" }}
                         >
                           <div className="avatar">
-                            <img src="./assets/img/download (1).jfif" alt />
+                            <img
+                              src={require("../assets/img/download (1).jfif")}
+                              alt
+                            />
                           </div>
                           <div className="input-comment">
                             <input
@@ -282,7 +373,10 @@ const ModalTask = () => {
                               style={{ display: "flex" }}
                             >
                               <div className="avatar">
-                                <img src="./assets/img/download (1).jfif" alt />
+                                <img
+                                  src={require("../assets/img/download (2).jfif")}
+                                  alt
+                                />
                               </div>
                               <div>
                                 <p style={{ marginBottom: 5 }}>
