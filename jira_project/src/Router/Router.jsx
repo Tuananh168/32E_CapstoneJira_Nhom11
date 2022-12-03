@@ -17,7 +17,7 @@ const Router = () => {
       element: <MainLayout />,
       children: [
         {
-          path: "/cyberBugs",
+          path: "/cyberBugs/:id",
           element: <ContentCyberBugs />,
         },
         {

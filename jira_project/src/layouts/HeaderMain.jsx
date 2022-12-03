@@ -1,6 +1,7 @@
 import React from "react";
 
-const HeaderMain = () => {
+const HeaderMain = (props) => {
+  const { projectDetail } = props;
   return (
     <div>
       <div>
@@ -8,14 +9,14 @@ const HeaderMain = () => {
           <nav aria-label="breadcrumb">
             <ol className="breadcrumb" style={{ backgroundColor: "white" }}>
               <li className="breadcrumb-item">Project</li>
-              <li className="breadcrumb-item">CyberLearn</li>
+              <li className="breadcrumb-item">Project Management</li>
               <li className="breadcrumb-item active" aria-current="page">
-                Cyber Board
+                {projectDetail.projectName}
               </li>
             </ol>
           </nav>
         </div>
-        <h3>Cyber Board</h3>
+        <h3 className="text-2xl font-bold">{projectDetail.projectName}</h3>
       </div>
     </div>
   );

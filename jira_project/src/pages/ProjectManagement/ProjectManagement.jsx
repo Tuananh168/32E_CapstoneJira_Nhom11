@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment, useRef } from "react";
+import { NavLink, Route, Routes } from "react-router-dom";
 import {
   Button,
   Space,
@@ -23,7 +24,6 @@ import {
   GET_ADD_USER_SAGA,
   REMOVE_USER_PROJECT_SAGA,
 } from "../../redux/constants/CyberBugs/CyberBugs";
-import { render } from "react-dom";
 
 const ProjectManagement = () => {
   const handleSearch = (value) => {
@@ -75,6 +75,9 @@ const ProjectManagement = () => {
       title: "Project Name",
       dataIndex: "projectName",
       key: "projectName",
+      render: (text, record, index) => {
+        return <NavLink to={`/cyberBugs/${record.id}`}>{text}</NavLink>;
+      },
       filteredValue: filteredInfo.projectName || null,
       onFilter: (value, record) => record.projectName.includes(value),
       sorter: (a, b) => {
@@ -267,6 +270,7 @@ const ProjectManagement = () => {
               onClick={() => {
                 dispatch({
                   type: OPEN_DRAWER_EDIT_FORM,
+                  title: "Edit Project",
                   component: <FormEditProject />,
                 });
                 dispatch({

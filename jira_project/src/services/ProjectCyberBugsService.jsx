@@ -18,7 +18,9 @@ export class ProjectCyberBugsSevice extends baseService {
   };
 
   UpdateProject = (projectUpdateId) => {
-    return this.put(`/api/Project/updateProject=${projectUpdateId}`);
+    return this.put(
+      `/api/Project/updateProject?projectId=${projectUpdateId.id}`
+    );
   };
 
   deleteProject = (id) => {
@@ -27,6 +29,21 @@ export class ProjectCyberBugsSevice extends baseService {
 
   deleteUserFromProject = (userProject) => {
     return this.post(`/api/Project/removeUserFromProject`, userProject);
+  };
+  getProjectDetail = (projectId) => {
+    return this.get(`/api/Project/getProjectDetail?id=${projectId}`);
+  };
+  getAllProject = () => {
+    return this.get(`/api/Project/getAllProject`);
+  };
+  postTaskProject = (newTask) => {
+    return this.post(`/api/Project/createTask`, newTask);
+  };
+  getTaskDetail = (taskId) => {
+    return this.get(`/api/Project/getTaskDetail?taskId=${taskId}`);
+  };
+  updateStatusTask = (taskStatusId) => {
+    return this.put(`/api/Project/updateStatus`, taskStatusId);
   };
 }
 

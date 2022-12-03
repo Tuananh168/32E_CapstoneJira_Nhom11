@@ -14,6 +14,10 @@ const FormEditProject = () => {
       type: "GET_UPDATE_PROJECT_SAGA",
       projectUpdate: values,
     });
+    dispatch({
+      type: SET_SUBMIT_EDIT_PROJECT,
+      submitFunction: handleSubmit,
+    });
   }, []);
   // Dùng useSelector lấy dữ liệu từ reducer về
   const projectEdit = useSelector((state) => state.ProjectReducer.projectEdit);
@@ -31,20 +35,19 @@ const FormEditProject = () => {
       categoryId: listProjectCategory.id,
     },
 
-    onSubmit: (values, props) => {},
-    handleSubmit: (values) => {},
+    onSubmit: (values, props) => {
+      console.log("values", values);
+      dispatch({
+        type: "GET_UPDATE_PROJECT_SAGA",
+        projectUpdate: { ...values, creator: 0 },
+      });
+    },
+    handleSubmit: (values) => {
+      console.log("values", values);
+    },
   });
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-    console.log("123");
-    dispatch({
-      type: SET_SUBMIT_EDIT_PROJECT,
-      submitFunction: handleSubmit,
-    });
-  };
+
   const { handleSubmit, handleChange, values, errors, initialValues } = formik;
 
   return (
@@ -81,6 +84,7 @@ const FormEditProject = () => {
               name="categoryId"
               className="form-control"
               value={values.categoryId}
+              onChange={handleChange}
             >
               {listProjectCategory.map((item, index) => {
                 return (
@@ -134,9 +138,6 @@ const FormEditProject = () => {
               "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
           }}
         />
-        <button type="submit" onClick={log}>
-          Log editor content
-        </button>
       </div>
     </form>
   );

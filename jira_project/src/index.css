@@ -483,5 +483,5 @@ code {
 }
 
 :where(.css-dev-only-do-not-override-6foo54).ant-layout {
-  flex: none;
+  flex: none !important;
 }

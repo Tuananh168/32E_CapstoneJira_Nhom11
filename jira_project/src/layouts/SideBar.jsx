@@ -6,10 +6,17 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
+import {
+  OPEN_DRAWER_CREATE_FORM,
+  OPEN_DRAWER_EDIT_FORM,
+} from "../redux/constants/CyberBugs/DrawerCyberBugs";
+import FormCreateTask from "../components/CyberBugs/FormCreateTask";
+import { useDispatch } from "react-redux";
 
 const { Header, Sider, Content } = Layout;
 
 const SideBar = () => {
+  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
   return (
     <Layout style={{ height: "100%" }}>
@@ -40,6 +47,13 @@ const SideBar = () => {
               key: "1",
               icon: <PlusOutlined />,
               label: "Create issue",
+              onClick: () => {
+                dispatch({
+                  type: OPEN_DRAWER_CREATE_FORM,
+                  title: "Create Task",
+                  component: <FormCreateTask />,
+                });
+              },
             },
             {
               key: "2",
