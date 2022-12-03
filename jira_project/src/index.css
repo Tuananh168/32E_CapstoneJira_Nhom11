@@ -483,5 +483,13 @@ code {
 }
 
 :where(.css-dev-only-do-not-override-6foo54).ant-layout {
-  flex: none !important;
+  flex: none;
+}
+
+:where(.css-dev-only-do-not-override-qxipo4).ant-layout {
+  flex: none;
+}
+
+:where(.css-dev-only-do-not-override-8jqkd1).ant-layout {
+  flex: none;
 }
