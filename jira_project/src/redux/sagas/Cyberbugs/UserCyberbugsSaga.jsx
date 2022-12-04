@@ -11,6 +11,7 @@ import {
 } from "redux-saga/effects";
 import { cyberBugsService } from "../../../services/CyberBugsService";
 import { projectCyberBugsSevice } from "../../../services/ProjectCyberBugsService";
+import { notifiFuntion } from "../../../utils/Notification/Notification";
 import { ACCESS_TOKEN, USER_LOGIN } from "../../../utils/setting/config";
 import {
   ADD_USER_PROJECT_SAGA,
@@ -18,6 +19,7 @@ import {
   LOGIN_ACTION,
   REMOVE_USER_PROJECT_SAGA,
   USER_SIGNIN_SAGA,
+  USER_SIGNUP_SAGA,
 } from "../../constants/CyberBugs/CyberBugs";
 
 // Quản lý các action Saga
@@ -101,6 +103,30 @@ function* RemoveUserProjectSaga(action) {
   }
 }
 
+function* signupSaga(action) {
+  console.log("action", action);
+  try {
+    const { data, status } = yield call(() =>
+      cyberBugsService.userSignUp(action.infoUser)
+    );
+
+    if (status === 200) {
+      let history = yield select((state) => state.HistoryReducer.history);
+      history("/login");
+    }
+
+    notifiFuntion("success", "Sign up user successfully !");
+
+    console.log("data", data);
+  } catch (error) {
+    console.log("error", error);
+    notifiFuntion("error", "Sign up user fail !");
+  }
+}
+
+export function* theoDoiSignUp() {
+  yield takeLatest(USER_SIGNUP_SAGA, signupSaga);
+}
 export function* theoDoiSignin() {
   yield takeLatest(USER_SIGNIN_SAGA, signinSaga);
 }

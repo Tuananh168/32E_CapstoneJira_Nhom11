@@ -1,47 +1,48 @@
-import { useFormik } from "formik";
 import React, { useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
 import {
   ADD_HISTORY,
-  USER_SIGNIN_SAGA,
+  USER_SIGNUP_SAGA,
 } from "../../redux/constants/CyberBugs/CyberBugs";
-import { signinCyberBugs } from "../../redux/actions/CyberBugsAction";
-export default function Login(props) {
-  let navigate = useNavigate();
+import { useNavigate } from "react-router-dom";
+const SignUp = (props) => {
   const dispatch = useDispatch();
-
+  let navigate = useNavigate();
   useEffect(() => {
     dispatch({ type: ADD_HISTORY, history: navigate });
   }, []);
-
   const formik = useFormik({
     initialValues: {
-      userLogin: "",
-      passwordLogin: "",
+      email: "",
+      passWord: "",
+      name: "",
+      phoneNumber: "",
     },
     onSubmit: (values, props) => {
-      dispatch(signinCyberBugs(values.userLogin, values.passwordLogin));
-      console.log("value", values);
+      console.log("values", values);
+      dispatch({
+        type: USER_SIGNUP_SAGA,
+        infoUser: values,
+      });
+    },
+    handleChange: (values) => {
+      console.log("values", values);
     },
     validationSchema: Yup.object({
-      userLogin: Yup.string()
-        .email("Invalid email address")
-        .required("Required!"),
-      passwordLogin: Yup.string()
+      email: Yup.string().email("Invalid email address").required("Required!"),
+      passWord: Yup.string()
         .max(15, "Must be 15 characters or less")
         .min(8, "Must be 8 characters or than")
         .required("required!"),
     }),
   });
-
   const { handleSubmit, handleChange, values, errors } = formik;
-
   return (
     <form
-      onSubmit={handleSubmit}
       className="h-full gradient-form bg-gray-200 md:h-screen"
+      onSubmit={handleSubmit}
     >
       <div className="container py-12 px-6 h-full">
         <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
@@ -58,38 +59,48 @@ export default function Login(props) {
                       />
                     </div>
                     <div>
-                      <p className="mb-4">Please login to your account</p>
+                      <p className="mb-4">Please fill your information</p>
                       <div className="mb-4">
                         <input
                           type="text"
-                          name="userLogin"
-                          value={values.userLogin}
+                          name="email"
+                          value={values.email}
                           onChange={handleChange}
                           className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                           id="exampleFormControlInput1"
-                          placeholder="Username"
+                          placeholder="Email"
                         />
-                        <div className="text-red-600 italic">
-                          {errors.userLogin ? (
-                            <div>{errors.userLogin}</div>
-                          ) : null}
-                        </div>
                       </div>
                       <div className="mb-4">
                         <input
-                          type="password"
-                          name="passwordLogin"
-                          value={values.passwordLogin}
+                          name="passWord"
+                          value={values.passWord}
                           onChange={handleChange}
                           className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                           id="exampleFormControlInput1"
                           placeholder="Password"
                         />
-                        <div className="text-red-600 italic">
-                          {errors.passwordLogin ? (
-                            <div>{errors.passwordLogin}</div>
-                          ) : null}
-                        </div>
+                      </div>
+                      <div className="mb-4">
+                        <input
+                          name="name"
+                          value={values.name}
+                          onChange={handleChange}
+                          className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                          id="exampleFormControlInput1"
+                          placeholder="Name"
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <input
+                          type="number"
+                          name="phoneNumber"
+                          value={values.phoneNumber}
+                          onChange={handleChange}
+                          className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                          id="exampleFormControlInput1"
+                          placeholder="Number Phone"
+                        />
                       </div>
                       <div className="text-center pt-1 mb-12 pb-1">
                         <button
@@ -102,23 +113,8 @@ export default function Login(props) {
                               "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
                           }}
                         >
-                          Log in
-                        </button>
-                        <a className="text-gray-500" href="#!">
-                          Forgot password?
-                        </a>
-                      </div>
-                      <div className="flex items-center justify-between pb-6">
-                        <p className="mb-0 mr-2">Don't have an account?</p>
-                        <NavLink
-                          to="/signup"
-                          type="submit"
-                          className="inline-block px-6 py-2 border-2 border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
-                          data-mdb-ripple="true"
-                          data-mdb-ripple-color="light"
-                        >
                           Sign Up
-                        </NavLink>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -149,4 +145,6 @@ export default function Login(props) {
       </div>
     </form>
   );
-}
+};
+
+export default SignUp;
