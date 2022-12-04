@@ -9,9 +9,14 @@ import ProjectManagement from "../pages/ProjectManagement/ProjectManagement";
 
 import ContentCyberBugs from "../layouts/ContentMain";
 import CreateProject from "../pages/Create Project/CreateProject";
+import SignUp from "../pages/signUp/SignUp";
 
 const Router = () => {
   const routing = useRoutes([
+    {
+      path: "/signup",
+      element: <SignUp />,
+    },
     {
       path: "/",
       element: <MainLayout />,

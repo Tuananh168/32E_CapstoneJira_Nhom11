@@ -5,6 +5,10 @@ export class CyberBugsService extends baseService {
     super();
   }
 
+  userSignUp = (infoUser) => {
+    return this.post(`/api/Users/signup`, infoUser);
+  };
+
   UserCyberBugs = (userLogin) => {
     return this.post(`/api/Users/signin`, userLogin);
   };
