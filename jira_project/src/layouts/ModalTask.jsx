@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactHtmlParser from "html-react-parser";
 import { Editor } from "@tinymce/tinymce-react";
+import { Select } from "antd";
 
 const ModalTask = () => {
   const dispatch = useDispatch();
@@ -18,12 +19,15 @@ const ModalTask = () => {
   }, []);
 
   const { taskDetailModal } = useSelector((state) => state.TaskDetailReducer);
+  console.log("taskDetailModal: ", taskDetailModal);
 
   const { arrPriority } = useSelector((state) => state.PriorityReducer);
 
   const { arrStatus } = useSelector((state) => state.StatusReducer);
 
   const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
+  const { projectDetail } = useSelector((state) => state.ProjectReducer);
+  console.log("projectDetail: ", projectDetail);
 
   const [visibleEditor, setVisibleEditor] = useState(false);
   const [historyContent, sethistoryContent] = useState(
@@ -121,10 +125,12 @@ const ModalTask = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log("name", name);
+    console.log("value", value);
     dispatch({
       type: "CHANGE_TASK_MODAL",
-      name,
-      value,
+      name: name,
+      value: value,
     });
   };
 
@@ -256,7 +262,9 @@ const ModalTask = () => {
                       >
                         {arrTaskType?.map((item, index) => {
                           return (
-                            <option value={item.id}>{item.taskType}</option>
+                            <option key={index} value={item.id}>
+                              {item.taskType}
+                            </option>
                           );
                         })}
                       </select>
@@ -406,8 +414,9 @@ const ModalTask = () => {
                         <h6>STATUS</h6>
                         <select
                           className="custom-select form-control"
-                          value={taskDetailModal.value}
+                          value={taskDetailModal.statusId}
                           onChange={handleChange}
+                          name="statusId"
                         >
                           {arrStatus?.map((status, index) => {
                             return (
@@ -419,13 +428,45 @@ const ModalTask = () => {
                         </select>
                       </div>
                       <div className="assignees">
-                        <h6>ASSIGNEES</h6>
-                        <div style={{ display: "flex" }}>
+                        <div className="row">
+                          <div className="col-4">
+                            <h6>ASSIGNEES</h6>
+                          </div>
+                          <div className="col-8">
+                            <select
+                              className="form-control"
+                              name="members"
+                              defaultValue="+add member"
+                              width="50px"
+                              height="10px"
+                            >
+                              {projectDetail.members
+                                ?.filter((mem) => {
+                                  let index =
+                                    taskDetailModal.assigness?.findIndex(
+                                      (us) => us.id === mem.userId
+                                    );
+                                  if (index !== -1) {
+                                    return false;
+                                  }
+                                  return true;
+                                })
+                                .map((mem, index) => {
+                                  return (
+                                    <option value={mem.userId}>
+                                      {mem.name}
+                                    </option>
+                                  );
+                                })}
+                            </select>
+                          </div>
+                        </div>
+                        <div style={{ display: "flex" }} className="container">
                           {taskDetailModal.assigness.map((user, index) => {
                             return (
                               <div
                                 key={index}
-                                style={{ display: "flex" }}
+                                style={{ display: "flex", flexWrap: "wrap" }}
                                 className="item"
                               >
                                 <div className="avatar">
@@ -449,7 +490,6 @@ const ModalTask = () => {
                               className="fa fa-plus"
                               style={{ marginRight: 5 }}
                             />
-                            <span>Add more</span>
                           </div>
                         </div>
                       </div>
