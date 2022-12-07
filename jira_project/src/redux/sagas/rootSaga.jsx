@@ -23,6 +23,7 @@ export function* rootSaga() {
     ProjectSaga.theoDoiPostTaskSaga(),
     ProjectSaga.theoDoiGetTaskDetail(),
     ProjectSaga.theoDoiPutStatusTask(),
+    ProjectSaga.theoDoiUpdateTask(),
     TaskTypeSaga.theoDoiTaskTypeSaga(),
     PrioritySaga.theoDoiPrioritySaga(),
     StatusSaga.theoDoiStatusSaga(),

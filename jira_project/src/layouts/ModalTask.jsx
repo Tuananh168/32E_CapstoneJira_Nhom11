@@ -417,6 +417,12 @@ const ModalTask = () => {
                           value={taskDetailModal.statusId}
                           onChange={handleChange}
                           name="statusId"
+                          onClick={() => {
+                            dispatch({
+                              type: "POST_UPDATE_TASK",
+                              newTask: taskDetailModal,
+                            });
+                          }}
                         >
                           {arrStatus?.map((status, index) => {
                             return (

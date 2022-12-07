@@ -209,6 +209,26 @@ function* putStatusTaskSaga(action) {
   }
 }
 
+// Post Update Task Project
+
+function* updateTaskProject(action) {
+  try {
+    // Gọi API lấy từ dữ liệu về
+    const { data, status } = yield call(() =>
+      projectCyberBugsSevice.updateTaskProject(action.newTask)
+    );
+    if (status === 200) {
+      console.log("data", data);
+    }
+    yield put({
+      type: "GET_PROJECT_DETAIL_SAGA",
+      projectId: data.content.projectId,
+    });
+  } catch (err) {
+    console.log("error", err);
+  }
+}
+
 export function* theoDoiGetListProjectSaga() {
   yield takeLatest("GET_LIST_PROJECT_SAGA", getListProjectSaga);
 }
@@ -240,4 +260,7 @@ export function* theoDoiGetTaskDetail() {
 }
 export function* theoDoiPutStatusTask() {
   yield takeLatest("PUT_STATUS_TASK_SAGA", putStatusTaskSaga);
+}
+export function* theoDoiUpdateTask() {
+  yield takeLatest("POST_UPDATE_TASK", updateTaskProject);
 }
