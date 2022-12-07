@@ -4,20 +4,52 @@ import {
   MenuUnfoldOutlined,
   PlusOutlined,
   SearchOutlined,
+  UserOutlined,
+  DownOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Dropdown, Space } from "antd";
+
 import {
   OPEN_DRAWER_CREATE_FORM,
   OPEN_DRAWER_EDIT_FORM,
 } from "../redux/constants/CyberBugs/DrawerCyberBugs";
 import FormCreateTask from "../components/CyberBugs/FormCreateTask";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { ACCESS_TOKEN, TOKEN, USER_LOGIN } from "../utils/setting/config";
+import { replace } from "formik";
 
 const { Header, Sider, Content } = Layout;
 
 const SideBar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { UserLogin } = useSelector((state) => state.UserCyberBugsReducer);
+
   const [collapsed, setCollapsed] = useState(false);
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: "1",
+          label: (
+            <button
+              onClick={() => {
+                navigate("/login", { replace: false });
+                localStorage.removeItem(USER_LOGIN);
+                localStorage.removeItem(TOKEN);
+                localStorage.removeItem(ACCESS_TOKEN);
+              }}
+            >
+              Log out
+              <LogoutOutlined className="ml-3" />
+            </button>
+          ),
+        },
+      ]}
+    />
+  );
   return (
     <Layout style={{ height: "100%" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -59,6 +91,20 @@ const SideBar = () => {
               key: "2",
               icon: <SearchOutlined />,
               label: "Search issue",
+            },
+            {
+              key: "3",
+              icon: <UserOutlined />,
+              label: (
+                <Dropdown overlay={menu}>
+                  <a onClick={(e) => e.preventDefault()}>
+                    <Space>
+                      Hello {UserLogin.name} !
+                      <DownOutlined />
+                    </Space>
+                  </a>
+                </Dropdown>
+              ),
             },
           ]}
         />

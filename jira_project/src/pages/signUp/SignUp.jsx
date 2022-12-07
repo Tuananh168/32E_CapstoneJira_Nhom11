@@ -27,8 +27,9 @@ const SignUp = (props) => {
         infoUser: values,
       });
     },
-    handleChange: (values) => {
+    handleChange: (values, e) => {
       console.log("values", values);
+      e.preventDefault();
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Invalid email address").required("Required!"),
@@ -36,6 +37,8 @@ const SignUp = (props) => {
         .max(15, "Must be 15 characters or less")
         .min(8, "Must be 8 characters or than")
         .required("required!"),
+      name: Yup.string().required("required!"),
+      phoneNumber: Yup.string().required("required!"),
     }),
   });
   const { handleSubmit, handleChange, values, errors } = formik;
@@ -51,7 +54,7 @@ const SignUp = (props) => {
               <div className="lg:flex lg:flex-wrap g-0">
                 <div className="lg:w-6/12 px-4 md:px-0">
                   <div className="md:p-12 md:mx-6">
-                    <div className="text-center">
+                    <div className="text-center my-8">
                       <img
                         className="mx-auto w-48"
                         src="https://cyberlearn.vn/wp-content/uploads/2020/03/cyberlearn-min-new-opt2.png"
@@ -59,7 +62,9 @@ const SignUp = (props) => {
                       />
                     </div>
                     <div>
-                      <p className="mb-4">Please fill your information</p>
+                      <p className="mb-4 text-xl font-bold">
+                        Please fill your information
+                      </p>
                       <div className="mb-4">
                         <input
                           type="text"
@@ -70,7 +75,11 @@ const SignUp = (props) => {
                           id="exampleFormControlInput1"
                           placeholder="Email"
                         />
+                        <div className="text-red-600 italic">
+                          {errors.email ? <div>{errors.email}</div> : null}
+                        </div>
                       </div>
+
                       <div className="mb-4">
                         <input
                           name="passWord"
@@ -80,7 +89,13 @@ const SignUp = (props) => {
                           id="exampleFormControlInput1"
                           placeholder="Password"
                         />
+                        <div className="text-red-600 italic">
+                          {errors.passWord ? (
+                            <div>{errors.passWord}</div>
+                          ) : null}
+                        </div>
                       </div>
+
                       <div className="mb-4">
                         <input
                           name="name"
@@ -90,7 +105,11 @@ const SignUp = (props) => {
                           id="exampleFormControlInput1"
                           placeholder="Name"
                         />
+                        <div className="text-red-600 italic">
+                          {errors.name ? <div>{errors.name}</div> : null}
+                        </div>
                       </div>
+
                       <div className="mb-4">
                         <input
                           type="number"
@@ -101,7 +120,13 @@ const SignUp = (props) => {
                           id="exampleFormControlInput1"
                           placeholder="Number Phone"
                         />
+                        <div className="text-red-600 italic">
+                          {errors.phoneNumber ? (
+                            <div>{errors.phoneNumber}</div>
+                          ) : null}
+                        </div>
                       </div>
+
                       <div className="text-center pt-1 mb-12 pb-1">
                         <button
                           type="submit"

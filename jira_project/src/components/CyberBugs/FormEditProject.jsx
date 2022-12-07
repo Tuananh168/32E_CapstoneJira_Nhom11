@@ -21,10 +21,12 @@ const FormEditProject = () => {
   }, []);
   // Dùng useSelector lấy dữ liệu từ reducer về
   const projectEdit = useSelector((state) => state.ProjectReducer.projectEdit);
+  console.log("projectEdit: ", projectEdit);
 
   const listProjectCategory = useSelector(
     (state) => state.ProjectCategoryReducer.listProjectCategory
   );
+  console.log("listProjectCategory: ", listProjectCategory);
 
   // Sử dụng formik để đưa dữ liệu lên .
   const formik = useFormik({
@@ -32,7 +34,7 @@ const FormEditProject = () => {
       id: projectEdit?.id,
       projectName: projectEdit.projectName,
       description: projectEdit.description,
-      categoryId: listProjectCategory.id,
+      categoryId: projectEdit.categoryId,
     },
 
     onSubmit: (values, props) => {

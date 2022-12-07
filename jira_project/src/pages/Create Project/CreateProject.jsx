@@ -22,15 +22,17 @@ const CreateProject = () => {
   const listProjectCategory = useSelector(
     (state) => state.ProjectCategoryReducer.listProjectCategory
   );
+  console.log("listProjectCategory: ", listProjectCategory);
 
   const formik = useFormik({
     initialValues: {
       projectName: "",
       description: "",
-      categoryId: "",
+      categoryId: 1,
     },
 
     onSubmit: (values, props) => {
+      console.log("values: ", values);
       dispatch({
         type: "GET_CREATE_PROJECT_SAGA",
         newProject: values,
@@ -104,7 +106,10 @@ const CreateProject = () => {
           <select
             name="categoryId"
             className="form-control"
-            onChange={handleChange}
+            value={listProjectCategory.id}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           >
             {listProjectCategory?.map((item, index) => {
               return (
@@ -115,8 +120,11 @@ const CreateProject = () => {
             })}
           </select>
         </div>
-        <button className="bg-blue-600 p-2 mt-3" type="submit">
-          Create Project
+        <button
+          className="bg-blue-600 p-2 mt-3 rounded-full text-white"
+          type="submit"
+        >
+          Save Change
         </button>
       </form>
     </div>

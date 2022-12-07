@@ -50,7 +50,7 @@ export default function Login(props) {
               <div className="lg:flex lg:flex-wrap g-0">
                 <div className="lg:w-6/12 px-4 md:px-0">
                   <div className="md:p-12 md:mx-6">
-                    <div className="text-center">
+                    <div className="text-center my-8">
                       <img
                         className="mx-auto w-48"
                         src="https://cyberlearn.vn/wp-content/uploads/2020/03/cyberlearn-min-new-opt2.png"
@@ -58,7 +58,9 @@ export default function Login(props) {
                       />
                     </div>
                     <div>
-                      <p className="mb-4">Please login to your account</p>
+                      <p className="mb-4 text-xl font-bold">
+                        Please login to your account
+                      </p>
                       <div className="mb-4">
                         <input
                           type="text"
