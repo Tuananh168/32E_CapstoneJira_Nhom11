@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactHtmlParser from "html-react-parser";
 import { Editor } from "@tinymce/tinymce-react";
-import { Select } from "antd";
+
+import moment from "moment";
 
 const ModalTask = () => {
   const dispatch = useDispatch();
@@ -29,11 +30,21 @@ const ModalTask = () => {
   const { projectDetail } = useSelector((state) => state.ProjectReducer);
   console.log("projectDetail: ", projectDetail);
 
+  const { listCommentTask } = useSelector((state) => state.CommentReducer);
+  console.log("listCommentTask: ", listCommentTask);
+
+  const { UserLogin } = useSelector((state) => state.UserCyberBugsReducer);
+
   const [visibleEditor, setVisibleEditor] = useState(false);
   const [historyContent, sethistoryContent] = useState(
     taskDetailModal.description
   );
   const [content, setContent] = useState(taskDetailModal.description);
+
+  const [visibleComment, setVisibleComment] = useState(false);
+
+  const [visibleUserComment, setVisibleUserComment] = useState(false);
+
   const renderDescription = () => {
     const jsxDescription = ReactHtmlParser(taskDetailModal.description);
     return (
@@ -47,7 +58,7 @@ const ModalTask = () => {
                 setContent(content);
               }}
               init={{
-                height: 500,
+                height: 300,
                 menubar: false,
                 plugins: [
                   "a11ychecker",
@@ -124,6 +135,7 @@ const ModalTask = () => {
   };
 
   const handleChange = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     console.log("name", name);
     console.log("value", value);
@@ -132,6 +144,12 @@ const ModalTask = () => {
       name: name,
       value: value,
     });
+    console.log("123");
+    // dispatch({
+    //   type: "CHANGE_ASSIGNESS_MODAL",
+    //   name: name,
+    //   value: value,
+    // });
   };
 
   const renderTimeTracking = () => {
@@ -308,35 +326,6 @@ const ModalTask = () => {
                         <p>Description</p>
                         <p>{renderDescription()}</p>
                       </div>
-                      <div style={{ fontWeight: 500, marginBottom: 10 }}>
-                        Jira Software (software projects) issue types:
-                      </div>
-                      <div className="title">
-                        <div className="title-item">
-                          <h3>
-                            BUG <i className="fa fa-bug" />
-                          </h3>
-                          <p>
-                            A bug is a problem which impairs or prevents the
-                            function of a product.
-                          </p>
-                        </div>
-                        <div className="title-item">
-                          <h3>
-                            STORY <i className="fa fa-book-reader" />
-                          </h3>
-                          <p>
-                            A user story is the smallest unit of work that needs
-                            to be done.
-                          </p>
-                        </div>
-                        <div className="title-item">
-                          <h3>
-                            TASK <i className="fa fa-tasks" />
-                          </h3>
-                          <p>A task represents work that needs to be done</p>
-                        </div>
-                      </div>
                       <div className="comment">
                         <h6>Comment</h6>
                         <div
@@ -345,68 +334,149 @@ const ModalTask = () => {
                         >
                           <div className="avatar">
                             <img
-                              src={require("../assets/img/download (1).jfif")}
-                              alt
+                              src={UserLogin.avatar}
+                              alt={UserLogin.avatar}
                             />
                           </div>
                           <div className="input-comment">
-                            <input
-                              type="text"
-                              placeholder="Add a comment ..."
-                            />
-                            <p>
-                              <span style={{ fontWeight: 500, color: "gray" }}>
-                                Protip:
-                              </span>
-                              <span>
-                                press
-                                <span
-                                  style={{
-                                    fontWeight: "bold",
-                                    background: "#ecedf0",
-                                    color: "#b4bac6",
+                            {visibleComment ? (
+                              <form
+                                onSubmit={(e) => {
+                                  e.preventDefault();
+                                }}
+                              >
+                                <input
+                                  type="text"
+                                  placeholder="Add a comment ..."
+                                  onChange={(e) => handleChange(e)}
+                                  name="comment"
+                                  value={taskDetailModal.comment}
+                                />
+                                <div className="mt-[2%]">
+                                  <button
+                                    type="submit"
+                                    className="bg-blue-600 py-1 px-3 text-white rounded-full"
+                                    onClick={(e) => {
+                                      setVisibleComment(false);
+                                      dispatch({
+                                        type: "POST_INSERTCOMMENT_SAGA",
+                                        insertComment: {
+                                          taskId: taskDetailModal.taskId,
+                                          contentComment:
+                                            taskDetailModal.comment,
+                                        },
+                                      });
+                                    }}
+                                  >
+                                    save
+                                  </button>
+                                  <button
+                                    className="bg-white py-1  px-3 ml-2"
+                                    onClick={() => {
+                                      setVisibleComment(false);
+                                    }}
+                                  >
+                                    cancel
+                                  </button>
+                                </div>
+                              </form>
+                            ) : (
+                              <form>
+                                <input
+                                  type="text"
+                                  placeholder="Add a comment ..."
+                                  value=""
+                                  onClick={() => {
+                                    setVisibleComment(!visibleComment);
                                   }}
-                                >
-                                  M
-                                </span>
-                                to comment
-                              </span>
-                            </p>
+                                />
+                                <p>
+                                  <span
+                                    style={{ fontWeight: 500, color: "gray" }}
+                                  >
+                                    Protip:
+                                  </span>
+                                  <span>
+                                    press
+                                    <span
+                                      style={{
+                                        fontWeight: "bold",
+                                        background: "#ecedf0",
+                                        color: "#b4bac6",
+                                      }}
+                                    >
+                                      M
+                                    </span>
+                                    to comment
+                                  </span>
+                                </p>
+                              </form>
+                            )}
                           </div>
                         </div>
-                        <div className="lastest-comment">
-                          <div className="comment-item">
-                            <div
-                              className="display-comment"
-                              style={{ display: "flex" }}
-                            >
-                              <div className="avatar">
-                                <img
-                                  src={require("../assets/img/download (2).jfif")}
-                                  alt
-                                />
-                              </div>
-                              <div>
-                                <p style={{ marginBottom: 5 }}>
-                                  Lord Gaben <span>a month ago</span>
-                                </p>
-                                <p style={{ marginBottom: 5 }}>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipisicing elit. Repellendus tempora ex
-                                  voluptatum saepe ab officiis alias totam ad
-                                  accusamus molestiae?
-                                </p>
-                                <div>
-                                  <span style={{ color: "#929398" }}>Edit</span>
-                                  •
-                                  <span style={{ color: "#929398" }}>
-                                    Delete
-                                  </span>
+                        {taskDetailModal.lstComment.map((cmt, index) => {
+                          return (
+                            <>
+                              <div className="lastest-comment mb-3">
+                                <div className="comment-item">
+                                  <div
+                                    className="display-comment"
+                                    style={{ display: "flex" }}
+                                  >
+                                    <div className="avatar">
+                                      <img src={cmt.avatar} alt={cmt.avatar} />
+                                    </div>
+                                    <div>
+                                      <p style={{ marginBottom: 5 }}>
+                                        {cmt.name} comment{" "}
+                                        <span>
+                                          {moment(listCommentTask.dateTime)
+                                            .startOf("hour")
+                                            .fromNow()}
+                                        </span>
+                                      </p>
+                                      {visibleUserComment ? (
+                                        <div>
+                                          <input className="form-control" />
+                                          <div>
+                                            <button>save</button>
+                                            <button>cancel</button>
+                                          </div>
+                                        </div>
+                                      ) : (
+                                        <p style={{ marginBottom: 5 }}>
+                                          {cmt.commentContent}
+                                        </p>
+                                      )}
+
+                                      <div>
+                                        <span
+                                          className="cursor-pointer hover:text-blue-600"
+                                          onClick={() => {}}
+                                        >
+                                          Edit
+                                        </span>
+                                        •
+                                        <span
+                                          className="cursor-pointer hover:text-blue-600"
+                                          onClick={() =>
+                                            dispatch({
+                                              type: "DELETE_COMMENT_SAGA",
+                                              idComment: cmt.id,
+                                              taskId: taskDetailModal.taskId,
+                                            })
+                                          }
+                                        >
+                                          Delete
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                        </div>
+                            </>
+                          );
+                        })}
                       </div>
                     </div>
                     <div className="col-4">
@@ -441,10 +511,17 @@ const ModalTask = () => {
                           <div className="col-8">
                             <select
                               className="form-control"
-                              name="members"
+                              name="listUserAsign"
                               defaultValue="+add member"
                               width="50px"
                               height="10px"
+                              onChange={handleChange}
+                              // onClick={() => {
+                              //   dispatch({
+                              //     type: "POST_UPDATE_TASK",
+                              //     newTask: taskDetailModal,
+                              //   });
+                              // }}
                             >
                               {projectDetail.members
                                 ?.filter((mem) => {
@@ -509,6 +586,12 @@ const ModalTask = () => {
                           onChange={(e) => {
                             handleChange(e);
                           }}
+                          onClick={() => {
+                            dispatch({
+                              type: "POST_UPDATE_TASK",
+                              newTask: taskDetailModal,
+                            });
+                          }}
                         >
                           {arrPriority.map((item, index) => {
                             return (
@@ -528,6 +611,12 @@ const ModalTask = () => {
                           value={taskDetailModal.originalEstimate}
                           onChange={(e) => {
                             handleChange(e);
+                          }}
+                          onClick={() => {
+                            dispatch({
+                              type: "POST_UPDATE_TASK",
+                              newTask: taskDetailModal,
+                            });
                           }}
                         />
                       </div>

@@ -313,7 +313,6 @@ code {
 }
 
 .modal-search .modal-content .modal-header .search-block {
-  position: relative;
   width: 100%;
 }
 
@@ -326,7 +325,6 @@ code {
 }
 
 .modal-search .modal-content .modal-header .search-block .fa-search {
-  position: absolute;
   left: 5%;
   top: 15%;
   color: #67748b;

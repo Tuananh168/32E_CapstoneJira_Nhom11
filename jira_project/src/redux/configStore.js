@@ -13,6 +13,7 @@ import { rootSaga } from "./sagas/rootSaga"
 import { PriorityReducer } from "./reducers/PriorityReducer"
 import { TaskDetailReducer } from "./reducers/TaskDetailReducer"
 import { StatusReducer } from "./reducers/StatusReducer"
+import { CommentReducer } from "./reducers/CommentReducer"
 
 
 const middleWareSaga = createMiddleWareSaga()
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
     PriorityReducer,
     TaskDetailReducer,
     StatusReducer,
+    CommentReducer,
 })
 
 

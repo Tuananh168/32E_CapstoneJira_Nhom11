@@ -34,6 +34,7 @@ const initialState = {
     typeId: 2,
     priorityId: 1,
     projectId: 9669,
+    listUserAsign: [2417],
   },
 };
 
@@ -46,12 +47,16 @@ export const TaskDetailReducer = (state = initialState, action) => {
     case "CHANGE_TASK_MODAL": {
       console.log("action", action);
       const { name, value } = action;
-
       return {
         ...state,
         taskDetailModal: { ...state.taskDetailModal, [name]: value },
       };
     }
+    // case "CHANGE_ASSIGNESS_MODAL": {
+    //   return {
+    //     ...state,
+    //   };
+    // }
     default:
       return state;
   }

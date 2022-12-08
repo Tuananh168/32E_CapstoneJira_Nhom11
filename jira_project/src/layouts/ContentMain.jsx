@@ -38,6 +38,10 @@ const ContentCyberBugs = (props) => {
                       type: "GET_TASK_DETAIL_SAGA",
                       taskId: task.taskId,
                     });
+                    dispatch({
+                      type: "GET_COMMENT_SAGA",
+                      taskId: task.taskId,
+                    });
                   }}
                 >
                   <p className="fw-bold">{task.taskName}</p>
@@ -75,7 +79,6 @@ const ContentCyberBugs = (props) => {
   return (
     <div className="content" style={{ display: "flex" }}>
       {renderCardTaskList()}
- 
     </div>
   );
 };
