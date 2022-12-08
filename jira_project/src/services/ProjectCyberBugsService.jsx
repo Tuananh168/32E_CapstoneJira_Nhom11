@@ -46,6 +46,9 @@ export class ProjectCyberBugsSevice extends baseService {
   updateStatusTask = (taskStatusId) => {
     return this.put(`/api/Project/updateStatus`, taskStatusId);
   };
+  updateTaskProject = (newTask) => {
+    return this.post(`/api/Project/updateTask`, newTask);
+  };
 }
 
 export const projectCyberBugsSevice = new ProjectCyberBugsSevice();
