@@ -5,6 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { GET_ADD_USER_SAGA } from "../../redux/constants/CyberBugs/CyberBugs";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import {
+  GET_ALL_PROJECT_SAGA,
+  POST_TASK_PROJECT_SAGA,
+} from "../../redux/constants/CyberBugs/ProjectConstant";
+import { TASK_TYPE_SAGA } from "../../redux/constants/CyberBugs/Tasktype";
+import { GET_PRIORITY_SAGA } from "../../redux/constants/CyberBugs/PriorityConstant";
+import { GET_STATUS_SAGA } from "../../redux/constants/CyberBugs/StatusConstant";
+import { SET_SUBMIT_CREATE_TASK } from "../../redux/constants/CyberBugs/DrawerCyberBugs";
 
 const FormCreateTask = () => {
   const editorRef = useRef(null);
@@ -23,22 +31,22 @@ const FormCreateTask = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
-      type: "GET_ALL_PROJECT_SAGA",
+      type: GET_ALL_PROJECT_SAGA,
     });
     dispatch({
-      type: "TASK_TYPE_SAGA",
+      type: TASK_TYPE_SAGA,
     });
     dispatch({
-      type: "GET_PRIORITY_SAGA",
+      type: GET_PRIORITY_SAGA,
     });
     dispatch({
       type: GET_ADD_USER_SAGA,
       keyword: "1",
     });
     dispatch({
-      type: "GET_STATUS_SAGA",
+      type: GET_STATUS_SAGA,
     });
-    dispatch({ type: "SET_SUBMIT_CREATE_TASK", submitFunction: handleSubmit });
+    dispatch({ type: SET_SUBMIT_CREATE_TASK, submitFunction: handleSubmit });
   }, []);
 
   const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
@@ -71,9 +79,8 @@ const FormCreateTask = () => {
     },
 
     onSubmit: (values, props) => {
-      console.log("values", values);
       dispatch({
-        type: "POST_TASK_PROJECT_SAGA",
+        type: POST_TASK_PROJECT_SAGA,
         newTask: values,
       });
     },
@@ -263,7 +270,6 @@ const FormCreateTask = () => {
         <Editor
           onEditorChange={(content, editer) => {
             setFieldValue("description", content);
-            console.log("content", content);
           }}
           onInit={(evt, editor) => (editorRef.current = editor)}
           init={{

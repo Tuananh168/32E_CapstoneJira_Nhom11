@@ -16,11 +16,13 @@ import { ACCESS_TOKEN, USER_LOGIN } from "../../../utils/setting/config";
 import {
   ADD_USER_PROJECT_SAGA,
   GET_ADD_USER_SAGA,
+  GET_USER_SEARCH,
   LOGIN_ACTION,
   REMOVE_USER_PROJECT_SAGA,
   USER_SIGNIN_SAGA,
   USER_SIGNUP_SAGA,
 } from "../../constants/CyberBugs/CyberBugs";
+import { GET_LIST_PROJECT_SAGA } from "../../constants/CyberBugs/ProjectConstant";
 
 // Quản lý các action Saga
 
@@ -34,6 +36,8 @@ function* signinSaga(action) {
     localStorage.setItem(ACCESS_TOKEN, data.content.accessToken);
     localStorage.setItem(USER_LOGIN, JSON.stringify(data.content));
 
+    notifiFuntion("success", "Sign in successfully !");
+
     yield put({
       type: LOGIN_ACTION,
       data: data.content,
@@ -45,6 +49,7 @@ function* signinSaga(action) {
     console.log("data", data);
   } catch (error) {
     console.log("error", error);
+    notifiFuntion("error", "Sorry , Sign in fail !");
   }
 }
 
@@ -58,7 +63,7 @@ function* getUserSaga(action) {
 
     if (status === 200) {
       yield put({
-        type: "GET_USER_SEARCH",
+        type: GET_USER_SEARCH,
         listUserSearch: data.content,
       });
     }
@@ -78,7 +83,7 @@ function* AddUserProjectSaga(action) {
     );
 
     yield put({
-      type: "GET_LIST_PROJECT_SAGA",
+      type: GET_LIST_PROJECT_SAGA,
     });
     console.log("data", data);
   } catch (error) {
@@ -95,7 +100,7 @@ function* RemoveUserProjectSaga(action) {
     );
 
     yield put({
-      type: "GET_LIST_PROJECT_SAGA",
+      type: GET_LIST_PROJECT_SAGA,
     });
     console.log("data", data);
   } catch (error) {

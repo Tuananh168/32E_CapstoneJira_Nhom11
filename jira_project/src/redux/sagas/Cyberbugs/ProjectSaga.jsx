@@ -10,6 +10,26 @@ import {
 } from "redux-saga/effects";
 import { projectCyberBugsSevice } from "../../../services/ProjectCyberBugsService";
 import { notifiFuntion } from "../../../utils/Notification/Notification";
+import {
+  GET_LIST_PROJECT_SAGA,
+  GET_UPDATE_PROJECT_SAGA,
+  GET_DELETE_PROJECT_SAGA,
+  GET_CREATE_PROJECT_SAGA,
+  GET_PROJECT_DETAIL_SAGA,
+  GET_ALL_PROJECT_SAGA,
+  POST_TASK_PROJECT_SAGA,
+  GET_TASK_DETAIL_SAGA,
+  PUT_STATUS_TASK_SAGA,
+  POST_UPDATE_TASK,
+} from "../../constants/CyberBugs/ProjectConstant";
+
+import {
+  GET_ALL_PROJECT,
+  GET_LIST_PROJECT,
+  PUT_PROJECT_DETAIL,
+} from "../../constants/ConstantReducer/ProjectConstantReducer";
+
+import { GET_TASK_DETAIL } from "../../constants/ConstantReducer/TaskConstantReducer";
 
 function* getListProjectSaga(action) {
   try {
@@ -19,7 +39,7 @@ function* getListProjectSaga(action) {
     );
     if (status === 200) {
       yield put({
-        type: "GET_LIST_PROJECT",
+        type: GET_LIST_PROJECT,
         projectList: data.content,
       });
     }
@@ -32,26 +52,18 @@ function* getListProjectSaga(action) {
 
 // Update Project
 function* getUpdateProjectSaga(action) {
-  console.log("projectUpdate", action.projectUpdate);
   try {
     // Gọi API lấy từ dữ liệu về
     const { data, status } = yield call(() =>
       projectCyberBugsSevice.UpdateProject(action.projectUpdate)
     );
 
-    if (status === 200) {
-      console.log("data", data);
-
-      notifiFuntion("success", "Update project successfully !");
-    } else {
-      notifiFuntion("error", "Update project fail !");
-    }
+    console.log("data", data);
     yield put({
-      type: "GET_LIST_PROJECT_SAGA",
+      type: GET_LIST_PROJECT_SAGA,
     });
   } catch (err) {
     console.log("error", err);
-    notifiFuntion("error", "Update project fail !");
   }
 }
 
@@ -70,7 +82,7 @@ function* getDeleteProjectSaga(action) {
       notifiFuntion("error", "Delete project fail !");
     }
     yield put({
-      type: "GET_LIST_PROJECT_SAGA",
+      type: GET_LIST_PROJECT_SAGA,
     });
   } catch (err) {
     console.log("error", err);
@@ -93,7 +105,7 @@ function* getCreateProjectSaga(action) {
       notifiFuntion("error", "Create project fail !");
     }
     yield put({
-      type: "GET_LIST_PROJECT_SAGA",
+      type: GET_LIST_PROJECT_SAGA,
     });
   } catch (err) {
     console.log("error", err);
@@ -111,7 +123,7 @@ function* getProjectDetailSaga(action) {
     );
     if (status === 200) {
       yield put({
-        type: "PUT_PROJECT_DETAIL",
+        type: PUT_PROJECT_DETAIL,
         projectDetail: data.content,
       });
       console.log("data", data);
@@ -131,7 +143,7 @@ function* getAllProjectSaga() {
     );
     if (status === 200) {
       yield put({
-        type: "GET_ALL_PROJECT",
+        type: GET_ALL_PROJECT,
         arrProject: data.content,
       });
       console.log("data", data);
@@ -171,7 +183,7 @@ function* getTaskDetailSaga(action) {
     );
     if (status === 200) {
       yield put({
-        type: "GET_TASK_DETAIL",
+        type: GET_TASK_DETAIL,
         taskDetailModal: data.content,
       });
 
@@ -194,11 +206,11 @@ function* putStatusTaskSaga(action) {
     );
     if (status === 200) {
       yield put({
-        type: "GET_PROJECT_DETAIL_SAGA",
+        type: GET_PROJECT_DETAIL_SAGA,
         projectId: taskStatusId.projectId,
       });
       yield put({
-        type: "GET_TASK_DETAIL_SAGA",
+        type: GET_TASK_DETAIL_SAGA,
         taskId: taskStatusId.taskId,
       });
 
@@ -221,7 +233,7 @@ function* updateTaskProject(action) {
       console.log("data", data);
     }
     yield put({
-      type: "GET_PROJECT_DETAIL_SAGA",
+      type: GET_PROJECT_DETAIL_SAGA,
       projectId: data.content.projectId,
     });
   } catch (err) {
@@ -230,37 +242,37 @@ function* updateTaskProject(action) {
 }
 
 export function* theoDoiGetListProjectSaga() {
-  yield takeLatest("GET_LIST_PROJECT_SAGA", getListProjectSaga);
+  yield takeLatest(GET_LIST_PROJECT_SAGA, getListProjectSaga);
 }
 
 export function* theoDoiGetProjectUpdateSaga() {
-  yield takeLatest("GET_UPDATE_PROJECT_SAGA", getUpdateProjectSaga);
+  yield takeLatest(GET_UPDATE_PROJECT_SAGA, getUpdateProjectSaga);
 }
 
 export function* theoDoiGetProjectDeleteSaga() {
-  yield takeLatest("GET_DELETE_PROJECT_SAGA", getDeleteProjectSaga);
+  yield takeLatest(GET_DELETE_PROJECT_SAGA, getDeleteProjectSaga);
 }
 
 export function* theoDoiCreateProjectSaga() {
-  yield takeLatest("GET_CREATE_PROJECT_SAGA", getCreateProjectSaga);
+  yield takeLatest(GET_CREATE_PROJECT_SAGA, getCreateProjectSaga);
 }
 
 export function* theoDoiProjectDetailSaga() {
-  yield takeLatest("GET_PROJECT_DETAIL_SAGA", getProjectDetailSaga);
+  yield takeLatest(GET_PROJECT_DETAIL_SAGA, getProjectDetailSaga);
 }
 export function* theoDoiGetAllProjectSaga() {
-  yield takeLatest("GET_ALL_PROJECT_SAGA", getAllProjectSaga);
+  yield takeLatest(GET_ALL_PROJECT_SAGA, getAllProjectSaga);
 }
 export function* theoDoiPostTaskSaga() {
-  yield takeLatest("POST_TASK_PROJECT_SAGA", postTaskSaga);
+  yield takeLatest(POST_TASK_PROJECT_SAGA, postTaskSaga);
 }
 
 export function* theoDoiGetTaskDetail() {
-  yield takeLatest("GET_TASK_DETAIL_SAGA", getTaskDetailSaga);
+  yield takeLatest(GET_TASK_DETAIL_SAGA, getTaskDetailSaga);
 }
 export function* theoDoiPutStatusTask() {
-  yield takeLatest("PUT_STATUS_TASK_SAGA", putStatusTaskSaga);
+  yield takeLatest(PUT_STATUS_TASK_SAGA, putStatusTaskSaga);
 }
 export function* theoDoiUpdateTask() {
-  yield takeLatest("POST_UPDATE_TASK", updateTaskProject);
+  yield takeLatest(POST_UPDATE_TASK, updateTaskProject);
 }

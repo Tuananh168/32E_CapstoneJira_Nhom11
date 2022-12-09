@@ -1,5 +1,8 @@
 import { USER_LOGIN } from "../../utils/setting/config";
-import { LOGIN_ACTION } from "../constants/CyberBugs/CyberBugs";
+import {
+  GET_USER_SEARCH,
+  LOGIN_ACTION,
+} from "../constants/CyberBugs/CyberBugs";
 
 let usLogin = {};
 
@@ -17,7 +20,7 @@ export const UserCyberBugsReducer = (state = stateDefault, action) => {
     case LOGIN_ACTION: {
       state.UserLogin = action.data;
     }
-    case "GET_USER_SEARCH": {
+    case GET_USER_SEARCH: {
       state.UserSearch = action.listUserSearch;
 
       return {

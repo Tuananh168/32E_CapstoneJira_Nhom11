@@ -1,0 +1,2 @@
+export const GET_TASK_DETAIL = "GET_TASK_DETAIL";
+export const CHANGE_TASK_MODAL = "CHANGE_TASK_MODAL";

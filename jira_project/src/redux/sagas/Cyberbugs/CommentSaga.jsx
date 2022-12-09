@@ -1,6 +1,13 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { commentService } from "../../../services/CommentService";
 import { notifiFuntion } from "../../../utils/Notification/Notification";
+import {
+  DELETE_COMMENT_SAGA,
+  GET_COMMENT_SAGA,
+  POST_INSERTCOMMENT_SAGA,
+} from "../../constants/CyberBugs/CommentConstant";
+import { GET_COMMENT_ALL } from "../../constants/ConstantReducer/CommentConstantReducer";
+import { GET_TASK_DETAIL_SAGA } from "../../constants/CyberBugs/ProjectConstant";
 
 function* commentTask(action) {
   console.log("action", action.taskId);
@@ -9,7 +16,7 @@ function* commentTask(action) {
       commentService.commentTask(action.taskId)
     );
     yield put({
-      type: "GET_COMMENT_ALL",
+      type: GET_COMMENT_ALL,
       listCommentTask: data,
     });
 
@@ -28,7 +35,7 @@ function* insertCommentTask(action) {
     );
 
     yield put({
-      type: "GET_TASK_DETAIL_SAGA",
+      type: GET_TASK_DETAIL_SAGA,
       taskId: insertComment.taskId,
     });
 
@@ -45,7 +52,7 @@ function* deleteCommentTask(action) {
     );
 
     yield put({
-      type: "GET_TASK_DETAIL_SAGA",
+      type: GET_TASK_DETAIL_SAGA,
       taskId: action.taskId,
     });
     notifiFuntion("success", "Delete comment successfully !");
@@ -58,11 +65,11 @@ function* deleteCommentTask(action) {
 }
 
 export function* theoDoiCommentTask() {
-  yield takeLatest("GET_COMMENT_SAGA", commentTask);
+  yield takeLatest(GET_COMMENT_SAGA, commentTask);
 }
 export function* theoDoiInsertCommentTask() {
-  yield takeLatest("POST_INSERTCOMMENT_SAGA", insertCommentTask);
+  yield takeLatest(POST_INSERTCOMMENT_SAGA, insertCommentTask);
 }
 export function* theoDoiDeleteCommentTask() {
-  yield takeLatest("DELETE_COMMENT_SAGA", deleteCommentTask);
+  yield takeLatest(DELETE_COMMENT_SAGA, deleteCommentTask);
 }

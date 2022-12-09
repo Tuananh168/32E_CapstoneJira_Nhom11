@@ -1,5 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { taskTypeService } from "../../../services/TaskTypeService";
+import { TASK_TYPE_SAGA } from "../../constants/CyberBugs/Tasktype";
+import { GET_ALL_TASK_TYPE } from "../../constants/ConstantReducer/TaskTypeConstantReducer";
 
 function* getTaskType() {
   console.log("123");
@@ -9,7 +11,7 @@ function* getTaskType() {
     );
     if (status === 200) {
       yield put({
-        type: "GET_ALL_TASK_TYPE",
+        type: GET_ALL_TASK_TYPE,
         arrTaskType: data.content,
       });
     }
@@ -21,5 +23,5 @@ function* getTaskType() {
 }
 
 export function* theoDoiTaskTypeSaga() {
-  yield takeLatest("TASK_TYPE_SAGA", getTaskType);
+  yield takeLatest(TASK_TYPE_SAGA, getTaskType);
 }

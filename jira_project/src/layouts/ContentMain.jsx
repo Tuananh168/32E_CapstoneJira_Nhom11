@@ -1,16 +1,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { GET_COMMENT_SAGA } from "../redux/constants/CyberBugs/CommentConstant";
+import {
+  GET_PROJECT_DETAIL_SAGA,
+  GET_TASK_DETAIL_SAGA,
+} from "../redux/constants/CyberBugs/ProjectConstant";
 
 const ContentCyberBugs = (props) => {
   const { projectDetail } = useSelector((state) => state.ProjectReducer);
-  console.log("projectDetail: ", projectDetail);
+
   const params = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch({
-      type: "GET_PROJECT_DETAIL_SAGA",
+      type: GET_PROJECT_DETAIL_SAGA,
       projectId: params.id,
     });
   }, []);
@@ -35,11 +40,11 @@ const ContentCyberBugs = (props) => {
                   style={{ cursor: "pointer" }}
                   onClick={() => {
                     dispatch({
-                      type: "GET_TASK_DETAIL_SAGA",
+                      type: GET_TASK_DETAIL_SAGA,
                       taskId: task.taskId,
                     });
                     dispatch({
-                      type: "GET_COMMENT_SAGA",
+                      type: GET_COMMENT_SAGA,
                       taskId: task.taskId,
                     });
                   }}
@@ -50,8 +55,6 @@ const ContentCyberBugs = (props) => {
                       <p className="text-red-600 fw-bolder">
                         {task.priorityTask.priority}
                       </p>
-                      {/* <i className="fa fa-bookmark" />
-                      <i className="fa fa-arrow-up" /> */}
                     </div>
                     <div className="block-right">
                       <div className="avatar-group" style={{ display: "flex" }}>

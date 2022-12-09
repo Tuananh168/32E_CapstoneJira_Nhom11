@@ -10,6 +10,7 @@ import {
 } from "redux-saga/effects";
 import { projectCategoryService } from "../../../services/ProjectCategoryService";
 import { PROJECT_CATEGORY_SAGA } from "../../constants/CyberBugs/CyberBugs";
+import { GET_PROJECT_CATEGORY } from "../../constants/ConstantReducer/CatogoryConstantReducer";
 
 function* projectCategorySaga() {
   try {
@@ -18,7 +19,7 @@ function* projectCategorySaga() {
     );
     if (status === 200) {
       yield put({
-        type: "GET_PROJECT_CATEGORY",
+        type: GET_PROJECT_CATEGORY,
         listProjectCategory: data.content,
       });
     }

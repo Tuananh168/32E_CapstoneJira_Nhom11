@@ -4,23 +4,27 @@ import ReactHtmlParser from "html-react-parser";
 import { Editor } from "@tinymce/tinymce-react";
 
 import moment from "moment";
+import { GET_PRIORITY_SAGA } from "../redux/constants/CyberBugs/PriorityConstant";
+import { TASK_TYPE_SAGA } from "../redux/constants/CyberBugs/Tasktype";
+import { GET_STATUS_SAGA } from "../redux/constants/CyberBugs/StatusConstant";
+import { CHANGE_TASK_MODAL } from "../redux/constants/ConstantReducer/TaskConstantReducer";
+import { POST_UPDATE_TASK } from "../redux/constants/CyberBugs/ProjectConstant";
 
 const ModalTask = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
-      type: "GET_PRIORITY_SAGA",
+      type: GET_PRIORITY_SAGA,
     });
     dispatch({
-      type: "GET_STATUS_SAGA",
+      type: GET_STATUS_SAGA,
     });
     dispatch({
-      type: "TASK_TYPE_SAGA",
+      type: TASK_TYPE_SAGA,
     });
   }, []);
 
   const { taskDetailModal } = useSelector((state) => state.TaskDetailReducer);
-  console.log("taskDetailModal: ", taskDetailModal);
 
   const { arrPriority } = useSelector((state) => state.PriorityReducer);
 
@@ -32,7 +36,6 @@ const ModalTask = () => {
   console.log("projectDetail: ", projectDetail);
 
   const { listCommentTask } = useSelector((state) => state.CommentReducer);
-  console.log("listCommentTask: ", listCommentTask);
 
   const { UserLogin } = useSelector((state) => state.UserCyberBugsReducer);
 
@@ -99,7 +102,7 @@ const ModalTask = () => {
               onClick={() => {
                 setVisibleEditor(false);
                 dispatch({
-                  type: "CHANGE_TASK_MODAL",
+                  type: CHANGE_TASK_MODAL,
                   name: "description",
                   value: content,
                 });
@@ -112,7 +115,7 @@ const ModalTask = () => {
               onClick={() => {
                 setVisibleEditor(false);
                 dispatch({
-                  type: "CHANGE_TASK_MODAL",
+                  type: CHANGE_TASK_MODAL,
                   name: "description",
                   value: historyContent,
                 });
@@ -138,19 +141,12 @@ const ModalTask = () => {
   const handleChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    console.log("name", name);
-    console.log("value", value);
+
     dispatch({
-      type: "CHANGE_TASK_MODAL",
+      type: CHANGE_TASK_MODAL,
       name: name,
       value: value,
     });
-    console.log("123");
-    // dispatch({
-    //   type: "CHANGE_ASSIGNESS_MODAL",
-    //   name: name,
-    //   value: value,
-    // });
   };
 
   const renderTimeTracking = () => {
@@ -489,7 +485,7 @@ const ModalTask = () => {
                           name="statusId"
                           onClick={() => {
                             dispatch({
-                              type: "POST_UPDATE_TASK",
+                              type: POST_UPDATE_TASK,
                               newTask: taskDetailModal,
                             });
                           }}
@@ -516,12 +512,6 @@ const ModalTask = () => {
                               width="50px"
                               height="10px"
                               onChange={handleChange}
-                              // onClick={() => {
-                              //   dispatch({
-                              //     type: "POST_UPDATE_TASK",
-                              //     newTask: taskDetailModal,
-                              //   });
-                              // }}
                             >
                               {projectDetail.members
                                 ?.filter((mem) => {
@@ -616,7 +606,7 @@ const ModalTask = () => {
                           }}
                           onClick={() => {
                             dispatch({
-                              type: "POST_UPDATE_TASK",
+                              type: POST_UPDATE_TASK,
                               newTask: taskDetailModal,
                             });
                           }}

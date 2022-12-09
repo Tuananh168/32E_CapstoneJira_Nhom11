@@ -18,7 +18,6 @@ export class ProjectCyberBugsSevice extends baseService {
   };
 
   UpdateProject = (projectUpdateId) => {
-    console.log("projectUpdateId: ", projectUpdateId.id);
     return this.put(
       `/api/Project/updateProject?projectId=${projectUpdateId.id}`
     );

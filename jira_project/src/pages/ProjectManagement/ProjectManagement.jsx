@@ -13,7 +13,7 @@ import {
 } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { EditOutlined, DeleteOutlined, CloseOutlined } from "@ant-design/icons";
-import { Divider, Tag } from "antd";
+import { Tag } from "antd";
 import {
   OPEN_DRAWER_EDIT_FORM,
   OPEN_DRAWER_EDIT_FROM,
@@ -24,6 +24,11 @@ import {
   GET_ADD_USER_SAGA,
   REMOVE_USER_PROJECT_SAGA,
 } from "../../redux/constants/CyberBugs/CyberBugs";
+import {
+  GET_DELETE_PROJECT_SAGA,
+  GET_LIST_PROJECT_SAGA,
+} from "../../redux/constants/CyberBugs/ProjectConstant";
+import { EDIT_PROJECT } from "../../redux/constants/ConstantReducer/ProjectConstantReducer";
 
 const ProjectManagement = () => {
   const handleSearch = (value) => {
@@ -52,7 +57,7 @@ const ProjectManagement = () => {
   const dispatch = useDispatch();
   // Sử dụng useEffect để gọi
   useEffect(() => {
-    dispatch({ type: "GET_LIST_PROJECT_SAGA" });
+    dispatch({ type: GET_LIST_PROJECT_SAGA });
   }, []);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
@@ -218,8 +223,7 @@ const ProjectManagement = () => {
                       // Set giá trị của hộp thoại
                       setValue(option.label);
                       // GỌi Api gửi về backend
-                      console.log("record", record.id);
-                      console.log("valueSelect", value);
+
                       dispatch({
                         type: ADD_USER_PROJECT_SAGA,
                         userProject: {
@@ -274,8 +278,11 @@ const ProjectManagement = () => {
                   component: <FormEditProject />,
                 });
                 dispatch({
-                  type: "EDIT_PROJECT",
+                  type: EDIT_PROJECT,
                   projectEditModel: record,
+                });
+                dispatch({
+                  type: GET_LIST_PROJECT_SAGA,
                 });
               }}
             >
@@ -286,7 +293,7 @@ const ProjectManagement = () => {
               title={"Are you sure to delete this project?"}
               onConfirm={() => {
                 dispatch({
-                  type: "GET_DELETE_PROJECT_SAGA",
+                  type: GET_DELETE_PROJECT_SAGA,
                   idProject: record.id,
                 });
               }}

@@ -23,7 +23,6 @@ export default function Login(props) {
     },
     onSubmit: (values, props) => {
       dispatch(signinCyberBugs(values.userLogin, values.passwordLogin));
-      console.log("value", values);
     },
     validationSchema: Yup.object({
       userLogin: Yup.string()
