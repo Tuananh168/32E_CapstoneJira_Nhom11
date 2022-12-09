@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import HeaderMain from "../layouts/HeaderMain";
 import InfoMain from "../layouts/InfoMain";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 
 import ProjectManagement from "./ProjectManagement/ProjectManagement";
 import SideBar from "../layouts/SideBar";
@@ -10,13 +10,15 @@ import CreateProject from "./Create Project/CreateProject";
 import MenuMain from "../layouts/MenuMain";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import _ from "lodash";
 
 const MainLayout = (props) => {
   const { projectDetail } = useSelector((state) => state.ProjectReducer);
   console.log("projectDetail: ", projectDetail);
   const params = useParams();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const { UserLogin } = useSelector((state) => state.UserCyberBugsReducer);
   useEffect(() => {
     dispatch({
       type: "GET_PROJECT_DETAIL_SAGA",
@@ -24,6 +26,9 @@ const MainLayout = (props) => {
     });
   }, []);
 
+  if (_.isEmpty(UserLogin)) {
+    navigate("/login", { replace: false });
+  }
   return (
     <div>
       <div className="jira">

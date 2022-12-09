@@ -27,6 +27,7 @@ const ModalTask = () => {
   const { arrStatus } = useSelector((state) => state.StatusReducer);
 
   const { arrTaskType } = useSelector((state) => state.TaskTypeReducer);
+
   const { projectDetail } = useSelector((state) => state.ProjectReducer);
   console.log("projectDetail: ", projectDetail);
 
@@ -268,30 +269,29 @@ const ModalTask = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <div className="task-title">
-                  <div className="row">
-                    <div className="col-6">
-                      <select
-                        name="typeId"
-                        className="form-control"
-                        value={taskDetailModal.typeId}
-                        onChange={(e) => {
-                          handleChange(e);
-                        }}
-                      >
-                        {arrTaskType?.map((item, index) => {
-                          return (
-                            <option key={index} value={item.id}>
-                              {item.taskType}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <div className="col-6">
-                      <span className="text-2xl ">
-                        {taskDetailModal.taskName}
-                      </span>
-                    </div>
+                  <div>
+                    <select
+                      name="typeId"
+                      className="form-control"
+                      width="100%"
+                      value={taskDetailModal.typeId}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    >
+                      {arrTaskType?.map((item, index) => {
+                        return (
+                          <option key={index} value={item.id}>
+                            {item.taskType}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <div className="mt-[10%]">
+                    <span className="text-2xl font-bold">
+                      {taskDetailModal.taskName}
+                    </span>
                   </div>
                 </div>
                 <div style={{ display: "flex" }} className="task-click">
@@ -321,13 +321,13 @@ const ModalTask = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-8">
-                      <p className="issue">This is an issue of type: Task.</p>
-                      <div className="description">
-                        <p>Description</p>
+                      <p className="issue">This is an issue of type: task</p>
+                      <div className="description mt-[5%]">
+                        <p className="font-bold">Description:</p>
                         <p>{renderDescription()}</p>
                       </div>
-                      <div className="comment">
-                        <h6>Comment</h6>
+                      <div className="comment mt-[5%]">
+                        <h6 className="font-bold">Comment:</h6>
                         <div
                           className="block-comment"
                           style={{ display: "flex" }}
@@ -481,7 +481,7 @@ const ModalTask = () => {
                     </div>
                     <div className="col-4">
                       <div className="status">
-                        <h6>STATUS</h6>
+                        <h6 className="font-bold">STATUS:</h6>
                         <select
                           className="custom-select form-control"
                           value={taskDetailModal.statusId}
@@ -506,7 +506,7 @@ const ModalTask = () => {
                       <div className="assignees">
                         <div className="row">
                           <div className="col-4">
-                            <h6>ASSIGNEES</h6>
+                            <h6 className="font-bold">ASSIGNEES:</h6>
                           </div>
                           <div className="col-8">
                             <select
@@ -578,7 +578,7 @@ const ModalTask = () => {
                       </div>
 
                       <div className="priority" style={{ marginBottom: 20 }}>
-                        <h6>PRIORITY</h6>
+                        <h6 className="font-bold">PRIORITY:</h6>
                         <select
                           name="priorityId"
                           className="form-control"
@@ -603,7 +603,9 @@ const ModalTask = () => {
                         </select>
                       </div>
                       <div className="estimate">
-                        <h6>ORIGINAL ESTIMATE (HOURS)</h6>
+                        <h6 className="font-bold">
+                          ORIGINAL ESTIMATE (HOURS):
+                        </h6>
                         <input
                           name="originalEstimate"
                           type="text"
