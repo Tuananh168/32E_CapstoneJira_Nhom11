@@ -7,6 +7,7 @@ import {
   UserOutlined,
   DownOutlined,
   LogoutOutlined,
+  SnippetsOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Dropdown, Space } from "antd";
 
@@ -51,6 +52,58 @@ const SideBar = () => {
       ]}
     />
   );
+  const login = [
+    {
+      key: "1",
+      icon: <UserOutlined />,
+      label: "Login",
+      onClick: () => {
+        navigate("/login");
+      },
+    },
+    {
+      key: "2",
+      icon: <SnippetsOutlined />,
+      label: "Signup",
+      onClick: () => {
+        navigate("/signup");
+      },
+    },
+  ];
+
+  const loginSuccess = [
+    {
+      key: "1",
+      icon: <PlusOutlined />,
+      label: "Create issue",
+      onClick: () => {
+        dispatch({
+          type: OPEN_DRAWER_CREATE_FORM,
+          title: "Create Task",
+          component: <FormCreateTask />,
+        });
+      },
+    },
+    {
+      key: "2",
+      icon: <SearchOutlined />,
+      label: "Search issue",
+    },
+    {
+      key: "3",
+      icon: <UserOutlined />,
+      label: (
+        <Dropdown overlay={menu}>
+          <a onClick={(e) => e.preventDefault()}>
+            <Space>
+              Hello {UserLogin.name} !
+              <DownOutlined />
+            </Space>
+          </a>
+        </Dropdown>
+      ),
+    },
+  ];
   return (
     <Layout style={{ height: "100%" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -75,39 +128,7 @@ const SideBar = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "1",
-              icon: <PlusOutlined />,
-              label: "Create issue",
-              onClick: () => {
-                dispatch({
-                  type: OPEN_DRAWER_CREATE_FORM,
-                  title: "Create Task",
-                  component: <FormCreateTask />,
-                });
-              },
-            },
-            {
-              key: "2",
-              icon: <SearchOutlined />,
-              label: "Search issue",
-            },
-            {
-              key: "3",
-              icon: <UserOutlined />,
-              label: (
-                <Dropdown overlay={menu}>
-                  <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                      Hello {UserLogin.name} !
-                      <DownOutlined />
-                    </Space>
-                  </a>
-                </Dropdown>
-              ),
-            },
-          ]}
+          items={_.isEmpty(UserLogin) ? login : loginSuccess}
         />
       </Sider>
       <Layout className="site-layout" style={{}}></Layout>

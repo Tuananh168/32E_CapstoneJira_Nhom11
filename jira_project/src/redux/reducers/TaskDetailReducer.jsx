@@ -1,3 +1,8 @@
+import {
+  CHANGE_TASK_MODAL,
+  GET_TASK_DETAIL,
+} from "../constants/ConstantReducer/TaskConstantReducer";
+
 const initialState = {
   taskDetailModal: {
     priorityTask: {
@@ -40,11 +45,11 @@ const initialState = {
 
 export const TaskDetailReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_TASK_DETAIL": {
+    case GET_TASK_DETAIL: {
       state.taskDetailModal = action.taskDetailModal;
       return { ...state };
     }
-    case "CHANGE_TASK_MODAL": {
+    case CHANGE_TASK_MODAL: {
       console.log("action", action);
       const { name, value } = action;
       return {
@@ -52,11 +57,7 @@ export const TaskDetailReducer = (state = initialState, action) => {
         taskDetailModal: { ...state.taskDetailModal, [name]: value },
       };
     }
-    // case "CHANGE_ASSIGNESS_MODAL": {
-    //   return {
-    //     ...state,
-    //   };
-    // }
+
     default:
       return state;
   }

@@ -14,20 +14,7 @@ const MenuMain = () => {
         </div>
       </div>
       <div className="control">
-        <NavLink
-          // to="/cyberBugs"
-          style={{ display: "block" }}
-          className="mb-3"
-          activeClassName="active font-weight-bold"
-        >
-          <i className="fa fa-credit-card mr-1" />
-          <span>Cyber Board</span>
-        </NavLink>
-        <NavLink
-          to="/projectManagement"
-          className="mb-3"
-          activeStyle="active font-weight-bold"
-        >
+        <NavLink to="/projectManagement" className="mb-3">
           <i className="fa fa-cog mr-1" />
           <span>Project Management</span>
         </NavLink>
@@ -35,14 +22,13 @@ const MenuMain = () => {
           to="/createproject"
           className="my-3"
           style={{ display: "block" }}
-          activeStyle="active font-weight-bold"
         >
           <i className="fa fa-cog mr-1" />
           <span>Create Project</span>
         </NavLink>
       </div>
       <div className="feature">
-        <div>
+        <div className="cursor-not-allowed select-none">
           <i className="fa fa-truck mr-1" />
           <span>Releases</span>
         </div>

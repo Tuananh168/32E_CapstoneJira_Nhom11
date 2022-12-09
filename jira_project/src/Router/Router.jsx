@@ -2,7 +2,6 @@ import React from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 import ContentMain from "../layouts/ContentMain";
 
-import Home from "../pages/home/Home";
 import Login from "../pages/login/Login";
 import MainLayout from "../pages/MainLayout";
 import ProjectManagement from "../pages/ProjectManagement/ProjectManagement";
@@ -38,10 +37,6 @@ const Router = () => {
     {
       path: "/login",
       element: <Login />,
-    },
-    {
-      path: "/home",
-      element: <Home />,
     },
   ]);
   return routing;

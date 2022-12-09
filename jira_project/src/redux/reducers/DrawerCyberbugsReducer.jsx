@@ -5,6 +5,7 @@ import {
   OPEN_DRAWER,
   OPEN_DRAWER_CREATE_FORM,
   OPEN_DRAWER_EDIT_FORM,
+  SET_SUBMIT_CREATE_TASK,
   SET_SUBMIT_EDIT_PROJECT,
 } from "../constants/CyberBugs/DrawerCyberBugs";
 
@@ -36,7 +37,7 @@ export const DrawerReducer = (state = initialState, action) => {
       state.title = action.title;
       return { ...state };
     }
-    case "SET_SUBMIT_CREATE_TASK": {
+    case SET_SUBMIT_CREATE_TASK: {
       return { ...state, callBackSubmit: action.submitFunction };
     }
 

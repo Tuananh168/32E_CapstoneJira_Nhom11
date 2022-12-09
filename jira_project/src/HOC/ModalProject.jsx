@@ -6,13 +6,12 @@ import {
   CLOSE_DRAWER,
   OPEN_DRAWER,
 } from "../redux/constants/CyberBugs/DrawerCyberBugs";
+import { GET_LIST_PROJECT_SAGA } from "../redux/constants/CyberBugs/ProjectConstant";
 
 const ModalProject = () => {
   const dispatch = useDispatch();
   const { visible, componentContentDrawer, callBackSubmit, title } =
     useSelector((state) => state.DrawerReducer);
-
-  console.log("componentContentDrawer", componentContentDrawer);
 
   const showDrawer = () => {
     dispatch({ type: OPEN_DRAWER });
@@ -32,7 +31,15 @@ const ModalProject = () => {
         }}
         extra={
           <Space style={{ textAlign: "right" }}>
-            <Button onClick={onClose} style={{ marginBottom: "6%" }}>
+            <Button
+              onClick={() => {
+                onClose();
+                dispatch({
+                  type: GET_LIST_PROJECT_SAGA,
+                });
+              }}
+              style={{ marginBottom: "6%" }}
+            >
               Cancel
             </Button>
             <Button onClick={callBackSubmit} className="bg-blue-600">

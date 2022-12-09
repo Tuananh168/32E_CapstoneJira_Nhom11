@@ -11,6 +11,7 @@ import MenuMain from "../layouts/MenuMain";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import _ from "lodash";
+import { GET_PROJECT_DETAIL_SAGA } from "../redux/constants/CyberBugs/ProjectConstant";
 
 const MainLayout = (props) => {
   const { projectDetail } = useSelector((state) => state.ProjectReducer);
@@ -21,14 +22,14 @@ const MainLayout = (props) => {
   const { UserLogin } = useSelector((state) => state.UserCyberBugsReducer);
   useEffect(() => {
     dispatch({
-      type: "GET_PROJECT_DETAIL_SAGA",
+      type: GET_PROJECT_DETAIL_SAGA,
       projectId: params.id,
     });
   }, []);
 
-  if (_.isEmpty(UserLogin)) {
-    navigate("/login", { replace: false });
-  }
+  // if (_.isEmpty(UserLogin)) {
+  //   navigate("/login", { replace: true });
+  // }
   return (
     <div>
       <div className="jira">

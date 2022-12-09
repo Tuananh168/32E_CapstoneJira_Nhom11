@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { PROJECT_CATEGORY_SAGA } from "../../redux/constants/CyberBugs/CyberBugs";
+import { GET_CREATE_PROJECT_SAGA } from "../../redux/constants/CyberBugs/ProjectConstant";
 
 const CreateProject = () => {
   const editorRef = useRef(null);
@@ -22,7 +23,6 @@ const CreateProject = () => {
   const listProjectCategory = useSelector(
     (state) => state.ProjectCategoryReducer.listProjectCategory
   );
-  console.log("listProjectCategory: ", listProjectCategory);
 
   const formik = useFormik({
     initialValues: {
@@ -32,9 +32,8 @@ const CreateProject = () => {
     },
 
     onSubmit: (values, props) => {
-      console.log("values: ", values);
       dispatch({
-        type: "GET_CREATE_PROJECT_SAGA",
+        type: GET_CREATE_PROJECT_SAGA,
         newProject: values,
       });
     },
@@ -44,7 +43,6 @@ const CreateProject = () => {
 
   const handleEditorChange = (content, editer) => {
     setFieldValue("description", content);
-    console.log("content", content);
   };
 
   return (
